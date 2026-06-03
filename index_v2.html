@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>FerFlow Dialysis Care</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+<style>
+:root{--blue:#1B6FE8;--blue-m:#4A90E8;--blue-l:#EBF3FD;--blue-u:#F0F7FF;--green:#16A34A;--green-s:#DCFCE7;--yellow:#D97706;--yellow-s:#FEF3C7;--red:#DC2626;--red-s:#FEE2E2;--purple:#7C3AED;--purple-s:#EDE9FE;--g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g300:#CBD5E1;--g400:#94A3B8;--g500:#64748B;--g600:#475569;--g700:#334155;--g800:#1E293B;--w:#FFFFFF;--r:16px;--r-sm:10px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);--sh-lg:0 4px 24px rgba(27,111,232,.15);}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:#EEF4FF;font-family:"DM Sans",sans-serif;color:var(--g800);font-size:15px;overscroll-behavior:none;}
+.scr{display:none;height:100dvh;flex-direction:column;overflow:hidden;}
+.scr.on{display:flex;}
+#s-load{background:linear-gradient(145deg,#0B3D91,#1B6FE8 55%,#38A8F0);align-items:center;justify-content:center;}
+.ld-wrap{text-align:center;}
+.ld-ico{width:82px;height:82px;border-radius:26px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.ld-name{font-family:"DM Serif Display",serif;font-size:32px;color:#fff;}
+.ld-sub{font-size:13px;color:rgba(255,255,255,.7);margin-top:4px;}
+.ld-spin{width:28px;height:28px;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;margin:24px auto 0;}
+.ld-st{font-size:12px;color:rgba(255,255,255,.6);margin-top:14px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+#s-auth{background:linear-gradient(145deg,#0B3D91,#1B6FE8 55%,#38A8F0);justify-content:flex-end;position:relative;overflow:hidden;}
+.ab{position:absolute;border-radius:50%;background:rgba(255,255,255,.07);}
+.ab.a1{width:320px;height:320px;top:-90px;right:-70px;}.ab.a2{width:200px;height:200px;bottom:240px;left:-60px;}.ab.a3{width:100px;height:100px;top:170px;right:50px;}
+.auth-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;position:relative;z-index:1;}
+.auth-logo{width:78px;height:78px;background:rgba(255,255,255,.18);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:15px;backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,.28);}
+.auth-title{font-family:"DM Serif Display",serif;font-size:27px;color:#fff;text-align:center;line-height:1.25;}
+.auth-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:5px;text-align:center;}
+.auth-tag{margin-top:22px;background:rgba(255,255,255,.12);border-radius:12px;padding:11px 16px;max-width:310px;border:1px solid rgba(255,255,255,.18);}
+.auth-tag p{color:rgba(255,255,255,.9);font-size:12px;line-height:1.55;text-align:center;}
+.auth-panel{background:var(--w);border-radius:26px 26px 0 0;padding:26px 22px 34px;position:relative;z-index:2;box-shadow:0 -8px 40px rgba(0,0,0,.15);}
+.cloud-b{display:flex;align-items:center;justify-content:center;gap:6px;background:#EFF6FF;border-radius:8px;padding:7px 12px;margin-bottom:16px;font-size:12px;font-weight:600;color:#1B6FE8;}
+.atabs{display:flex;background:var(--g100);border-radius:11px;padding:4px;margin-bottom:20px;}
+.atab{flex:1;padding:9px;font-family:"DM Sans",sans-serif;font-size:13px;font-weight:600;border:none;border-radius:8px;cursor:pointer;background:transparent;color:var(--g500);transition:.2s;}
+.atab.on{background:var(--w);color:var(--blue);box-shadow:0 1px 5px rgba(0,0,0,.09);}
+.af{margin-bottom:13px;}
+.af label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--g500);margin-bottom:5px;}
+.af input,.af select{width:100%;padding:12px 14px;font-family:"DM Sans",sans-serif;font-size:14px;border:1.5px solid var(--g200);border-radius:11px;background:var(--g50);color:var(--g800);outline:none;transition:.2s;}
+.af input:focus,.af select:focus{border-color:var(--blue);background:var(--w);}
+.abtn{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-family:"DM Sans",sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;box-shadow:var(--sh-lg);}
+.abtn:disabled{background:var(--g300);}
+.amsg{margin-top:11px;padding:9px 13px;border-radius:9px;font-size:13px;font-weight:600;display:none;}
+.amsg.err{display:block;background:var(--red-s);color:var(--red);}
+.amsg.ok{display:block;background:var(--green-s);color:var(--green);}
+#s-app{background:var(--g50);}
+.topbar{background:var(--w);padding:12px 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--g100);flex-shrink:0;}
+.tb-brand{font-family:"DM Serif Display",serif;font-size:18px;color:var(--blue);}
+.tb-r{display:flex;align-items:center;gap:9px;}
+.rpill{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--blue-l);color:var(--blue);}
+.rpill.nurse{background:#FFF7ED;color:#C2410C;}
+.cdot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 2px rgba(22,163,74,.25);animation:blink 3s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.av{width:33px;height:33px;border-radius:50%;background:var(--blue-l);color:var(--blue);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.bnav{background:var(--w);border-top:1px solid var(--g100);display:flex;flex-shrink:0;padding:5px 0 max(5px,env(safe-area-inset-bottom));}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;cursor:pointer;padding:5px 2px;font-family:"DM Sans",sans-serif;font-size:10px;font-weight:600;color:var(--g400);}
+.nb svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.nb.on{color:var(--blue);}
+.pages{flex:1;overflow:hidden;}
+.pg{display:none;height:100%;overflow-y:auto;padding:15px 15px 10px;}
+.pg.on{display:block;}
+.pg-title{font-family:"DM Serif Display",serif;font-size:21px;color:var(--g800);margin-bottom:3px;}
+.pg-date{font-size:12px;color:var(--g400);margin-bottom:14px;font-weight:500;}
+.card{background:var(--w);border-radius:var(--r);padding:17px;margin-bottom:13px;box-shadow:var(--sh);}
+.chdr{display:flex;align-items:center;gap:9px;margin-bottom:13px;}
+.cico{width:33px;height:33px;border-radius:10px;background:var(--blue-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cico svg{width:17px;height:17px;stroke:var(--blue);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.ctitle{font-size:14px;font-weight:700;color:var(--g800);}
+.csub{font-size:11px;color:var(--g400);margin-top:1px;}
+.hero{background:linear-gradient(135deg,var(--blue),var(--blue-m));border-radius:20px;padding:20px 18px;margin-bottom:13px;position:relative;overflow:hidden;box-shadow:var(--sh-lg);}
+.h-b1{position:absolute;right:-28px;top:-28px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07);}
+.h-b2{position:absolute;right:25px;bottom:-45px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.05);}
+.h-top{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1;}
+.h-lbl{font-size:11px;font-weight:600;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.6px;}
+.sdot{width:10px;height:10px;border-radius:50%;}
+.h-main{position:relative;z-index:1;margin-top:11px;}
+.h-sisa{font-family:"DM Serif Display",serif;font-size:50px;color:#fff;line-height:1;}
+.h-unit{font-size:15px;color:rgba(255,255,255,.7);margin-left:3px;}
+.h-sub{font-size:12px;color:rgba(255,255,255,.72);margin-top:4px;}
+.h-bar{margin-top:15px;position:relative;z-index:1;}
+.h-bar-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.h-trk{height:8px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden;}
+.h-fill{height:100%;border-radius:99px;background:rgba(255,255,255,.88);transition:width .55s ease;}
+.h-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px;position:relative;z-index:1;}
+.hstat{background:rgba(255,255,255,.14);border-radius:11px;padding:9px 11px;}
+.hstat-v{font-size:19px;font-weight:700;color:#fff;font-family:"DM Serif Display",serif;}
+.hstat-l{font-size:10px;color:rgba(255,255,255,.68);margin-top:2px;}
+/* Neraca cairan hero */
+.h-stats4{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px;position:relative;z-index:1;}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:99px;font-size:12px;font-weight:700;}
+.pdot{width:7px;height:7px;border-radius:50%;background:currentColor;}
+.pill.green{background:var(--green-s);color:var(--green);}
+.pill.yellow{background:var(--yellow-s);color:var(--yellow);}
+.pill.red{background:var(--red-s);color:var(--red);}
+.pill.purple{background:var(--purple-s);color:var(--purple);}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px;}
+.mc{background:var(--w);border-radius:var(--r-sm);padding:13px 11px;box-shadow:var(--sh);}
+.mc-ico{width:27px;height:27px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.mc-ico svg{width:16px;height:16px;}
+.mc-v{font-family:"DM Serif Display",serif;font-size:21px;color:var(--g800);}
+.mc-l{font-size:11px;color:var(--g400);font-weight:600;margin-top:2px;}
+.mot{background:linear-gradient(135deg,#0F4C8A,#1B6FE8);border-radius:var(--r);padding:15px 17px;margin-bottom:13px;display:flex;gap:11px;align-items:center;}
+.mot-ico{font-size:26px;flex-shrink:0;}
+.mot p{color:rgba(255,255,255,.9);font-size:13px;line-height:1.55;font-style:italic;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fgrid .full{grid-column:1/-1;}
+.fl{display:flex;flex-direction:column;gap:4px;}
+.fl label{font-size:11px;font-weight:700;color:var(--g500);text-transform:uppercase;letter-spacing:.5px;}
+.fl input,.fl select{padding:10px 12px;font-family:"DM Sans",sans-serif;font-size:14px;border:1.5px solid var(--g200);border-radius:var(--r-sm);background:var(--g50);color:var(--g800);outline:none;width:100%;}
+.fl input:focus,.fl select:focus{border-color:var(--blue);background:var(--w);}
+.fl input:disabled,.fl select:disabled{background:var(--g100);color:var(--g400);cursor:not-allowed;}
+.btn-b{padding:11px 18px;background:var(--blue);color:#fff;border:none;border-radius:var(--r-sm);font-family:"DM Sans",sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.btn-b.full{width:100%;margin-top:11px;}
+.btn-b.green{background:var(--green);}
+.btn-b:disabled{background:var(--g300);cursor:not-allowed;}
+.prog{margin:13px 0;}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--g400);margin-bottom:6px;font-weight:600;}
+.prog-trk{height:13px;background:var(--g100);border-radius:99px;overflow:hidden;position:relative;}
+.prog-fill{height:100%;border-radius:99px;transition:width .45s ease,background .3s;}
+.prog-pct{position:absolute;right:7px;top:0;line-height:13px;font-size:10px;font-weight:700;color:#fff;}
+.inprow{display:flex;gap:7px;margin-bottom:13px;}
+.inprow input{flex:1;padding:10px 12px;font-family:"DM Sans",sans-serif;font-size:14px;border:1.5px solid var(--g200);border-radius:var(--r-sm);background:var(--g50);color:var(--g800);outline:none;}
+.inprow input:focus{border-color:var(--blue);background:var(--w);}
+.inprow input:disabled{background:var(--g100);}
+.fi{display:flex;align-items:center;gap:9px;padding:10px 11px;background:var(--g50);border-radius:var(--r-sm);margin-bottom:6px;border:1px solid var(--g100);}
+.fi-ico{width:30px;height:30px;border-radius:8px;background:var(--blue-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.fi-ico svg{width:15px;height:15px;stroke:var(--blue);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.fi-body{flex:1;}
+.fi-lbl{font-size:13px;font-weight:600;color:var(--g700);}
+.fi-time{font-size:11px;color:var(--g400);}
+.fi-ml{font-weight:700;color:var(--blue);font-size:13px;margin-right:7px;}
+.fi-del{background:none;border:none;cursor:pointer;color:var(--g300);font-size:18px;line-height:1;}
+.fi-out .fi-ico{background:#FFF7ED;}
+.fi-out .fi-ico svg{stroke:#C2410C;}
+.fi-out .fi-ml{color:#C2410C;}
+.wkbadge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--blue-l);color:var(--blue);}
+.idwg-box{padding:13px;border-radius:var(--r-sm);margin-top:11px;display:none;text-align:center;}
+.idwg-box.ok{display:block;background:var(--green-s);color:var(--green);}
+.idwg-box.warn{display:block;background:var(--yellow-s);color:var(--yellow);}
+.idwg-box.bad{display:block;background:var(--red-s);color:var(--red);}
+.idwg-v{font-family:"DM Serif Display",serif;font-size:26px;margin-bottom:3px;}
+.idwg-d{font-size:12px;font-weight:600;}
+.wtchart{position:relative;height:155px;margin:13px 0 7px;}
+.wt-legend{display:flex;justify-content:center;gap:16px;margin-top:7px;flex-wrap:wrap;}
+.wt-leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g500);font-weight:600;}
+.wt-dot{width:9px;height:9px;border-radius:50%;}
+.jd-item{display:flex;align-items:center;gap:11px;padding:11px 13px;background:var(--blue-u);border-radius:var(--r-sm);border-left:3px solid var(--blue);margin-bottom:7px;}
+.jd-item.past{background:var(--g100);border-left-color:var(--g300);}
+.jd-item.today{background:#F0FDF4;border-left-color:var(--green);}
+.jd-date{font-family:"DM Serif Display",serif;font-size:22px;color:var(--blue);min-width:34px;text-align:center;}
+.jd-item.past .jd-date{color:var(--g400);}
+.jd-item.today .jd-date{color:var(--green);}
+.jd-hari{font-size:13px;font-weight:700;color:var(--g800);}
+.jd-shift{font-size:12px;color:var(--g500);}
+.nstats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:13px;}
+.nstat{background:var(--w);border-radius:var(--r-sm);padding:13px 9px;text-align:center;box-shadow:var(--sh);}
+.nstat-v{font-family:"DM Serif Display",serif;font-size:26px;color:var(--g800);}
+.nstat-l{font-size:11px;color:var(--g400);font-weight:600;margin-top:2px;}
+.prrow{display:flex;align-items:center;gap:9px;padding:11px 13px;border-bottom:1px solid var(--g100);cursor:pointer;transition:background .15s;}
+.prrow:hover{background:var(--blue-u);}
+.prrow:last-child{border:none;}
+.pr-av{width:36px;height:36px;border-radius:50%;background:var(--blue-l);color:var(--blue);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pr-name{font-size:13px;font-weight:700;color:var(--g800);}
+.pr-info{font-size:11px;color:var(--g400);}
+.pr-id{font-size:10px;color:var(--g400);font-family:monospace;background:var(--g100);padding:1px 5px;border-radius:4px;}
+.pr-bdg{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap;}
+.pr-bdg.g{background:var(--green-s);color:var(--green);}
+.pr-bdg.y{background:var(--yellow-s);color:var(--yellow);}
+.pr-bdg.r{background:var(--red-s);color:var(--red);}
+.pr-bdg.x{background:var(--g100);color:var(--g400);}
+.pr-btn{padding:5px 11px;background:var(--blue-l);color:var(--blue);border:none;border-radius:6px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.hhdr{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.5px;padding:7px 0 3px;border-bottom:1px solid var(--g100);margin-bottom:7px;}
+.hrow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--g50);}
+.hrow:last-child{border:none;}
+.hk{font-size:13px;color:var(--g600);}
+.hv{font-size:13px;font-weight:700;color:var(--g800);}
+.hv.green{color:var(--green);}
+.hv.yellow{color:var(--yellow);}
+.hv.red{color:var(--red);}
+.hv.purple{color:var(--purple);}
+.irows{display:flex;flex-direction:column;}
+.irow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--g50);}
+.irow:last-child{border:none;}
+.irl{font-size:12px;color:var(--g500);}
+.irv{font-size:13px;font-weight:600;color:var(--g800);}
+.empty{text-align:center;padding:24px 14px;}
+.emp-ico{width:48px;height:48px;margin:0 auto 11px;background:var(--g100);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.emp-ico svg{width:24px;height:24px;stroke:var(--g400);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.empty p{font-size:13px;color:var(--g400);font-weight:600;line-height:1.5;}
+.ftabs{display:flex;gap:6px;margin-bottom:13px;overflow-x:auto;}
+.ftab{padding:6px 13px;border-radius:99px;border:1.5px solid var(--g200);background:var(--w);font-family:"DM Sans",sans-serif;font-size:12px;font-weight:700;color:var(--g500);cursor:pointer;white-space:nowrap;}
+.ftab.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+.ro-ban{background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:var(--r-sm);padding:10px 13px;margin-bottom:13px;display:flex;align-items:center;gap:9px;}
+.ro-ban svg{width:18px;height:18px;stroke:#C2410C;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.ro-ban p{font-size:12px;color:#C2410C;font-weight:600;}
+.info-box{padding:11px 13px;background:var(--blue-u);border-radius:var(--r-sm);border-left:3px solid var(--blue);margin-top:11px;}
+.info-box strong{font-size:12px;color:var(--blue);display:block;margin-bottom:3px;}
+.info-box p{font-size:12px;color:var(--g600);line-height:1.55;}
+.expbtn{width:100%;padding:12px;background:var(--w);border:1.5px solid var(--g200);border-radius:var(--r-sm);font-family:"DM Sans",sans-serif;font-size:13px;font-weight:700;color:var(--g700);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:9px;}
+.expbtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.det-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.det-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--g400);line-height:1;}
+.sec-lbl{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;margin-top:13px;}
+/* Neraca Card */
+.neraca-box{border-radius:var(--r-sm);padding:13px;margin-top:11px;border:1.5px solid var(--g200);}
+.neraca-box.pos{border-color:var(--green);background:#F0FDF4;}
+.neraca-box.neg{border-color:var(--red);background:var(--red-s);}
+.neraca-box.zero{border-color:var(--blue);background:var(--blue-l);}
+.neraca-v{font-family:"DM Serif Display",serif;font-size:28px;}
+.neraca-v.pos{color:var(--green);}
+.neraca-v.neg{color:var(--red);}
+.neraca-v.zero{color:var(--blue);}
+.neraca-d{font-size:12px;font-weight:600;color:var(--g500);margin-top:2px;}
+/* Grafik cairan */
+.fluid-chart{position:relative;height:155px;margin:13px 0 7px;}
+/* Tab section dalam detail pasien */
+.dtabs{display:flex;gap:5px;margin-bottom:13px;overflow-x:auto;}
+.dtab{padding:5px 12px;border-radius:99px;border:1.5px solid var(--g200);background:var(--w);font-family:"DM Sans",sans-serif;font-size:12px;font-weight:700;color:var(--g500);cursor:pointer;white-space:nowrap;}
+.dtab.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+.dpanel{display:none;}
+.dpanel.on{display:block;}
+/* Status badge jadwal */
+.jd-hadir{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}
+.jd-hadir.y{background:var(--green-s);color:var(--green);}
+.jd-hadir.n{background:var(--red-s);color:var(--red);}
+.jd-hadir.x{background:var(--g100);color:var(--g400);}
+/* Riwayat tabs */
+.rv-section{margin-bottom:20px;}
+.rv-section-title{font-size:13px;font-weight:700;color:var(--g700);padding:8px 0 6px;border-bottom:1.5px solid var(--g200);margin-bottom:9px;}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--g800);color:#fff;padding:9px 18px;border-radius:99px;font-size:13px;font-weight:700;z-index:9999;opacity:0;transition:.22s;white-space:nowrap;pointer-events:none;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.hidden{display:none!important;}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-thumb{background:var(--g200);border-radius:99px;}
+/* Full overlay detail pasien */
+.full-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--g50);z-index:800;display:flex;flex-direction:column;overflow:hidden;}
+.full-overlay.hidden{display:none!important;}
+.overlay-hdr{background:var(--w);padding:13px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--g100);flex-shrink:0;}
+.overlay-back{background:none;border:none;cursor:pointer;width:34px;height:34px;border-radius:50%;background:var(--blue-l);display:flex;align-items:center;justify-content:center;}
+.overlay-back svg{width:18px;height:18px;stroke:var(--blue);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.overlay-title{font-family:"DM Serif Display",serif;font-size:18px;color:var(--g800);}
+.overlay-body{flex:1;overflow-y:auto;padding:15px;}
+</style>
+</head>
+<body>
+<div id="s-load" class="scr on">
+  <div class="ld-wrap">
+    <div class="ld-ico"><svg width="46" height="46" viewBox="0 0 46 46" fill="none"><path d="M23 4C23 4 8 13 8 24C8 32 14.8 39 23 39C31.2 39 38 32 38 24C38 13 23 4 23 4Z" stroke="white" stroke-width="2.2" stroke-linejoin="round"/><path d="M17 24H29M23 18V30" stroke="white" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+    <div class="ld-name">FerFlow</div>
+    <div class="ld-sub">Dialysis Care</div>
+    <div class="ld-spin"></div>
+    <div class="ld-st" id="ld-st">Menghubungkan ke Firebase...</div>
+  </div>
+</div>
+<div id="s-auth" class="scr">
+  <div class="ab a1"></div><div class="ab a2"></div><div class="ab a3"></div>
+  <div class="auth-top">
+    <div class="auth-logo"><svg width="42" height="42" viewBox="0 0 42 42" fill="none"><path d="M21 4C21 4 7 13 7 23C7 30.7 13.3 37 21 37C28.7 37 35 30.7 35 23C35 13 21 4 21 4Z" stroke="white" stroke-width="2.2" stroke-linejoin="round"/><path d="M15 23H27M21 17V29" stroke="white" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+    <div class="auth-title">FerFlow<br>Dialysis Care</div>
+    <div class="auth-sub">Manajemen Cairan Hemodialisis</div>
+    <div class="auth-tag"><p>Pantau cairan dengan aman setiap hari untuk hidup yang lebih sehat bersama hemodialisis.</p></div>
+  </div>
+  <div class="auth-panel">
+    <div class="cloud-b">Cloud Firebase - Data Lintas Perangkat</div>
+    <div class="atabs">
+      <button class="atab on" id="t-masuk" onclick="authTab('masuk')">Masuk</button>
+      <button class="atab" id="t-daftar" onclick="authTab('daftar')">Daftar Akun</button>
+    </div>
+    <div class="af"><label>Email</label><input type="email" id="a-email" placeholder="email@contoh.com" autocomplete="email"/></div>
+    <div class="af"><label>Kata Sandi</label><input type="password" id="a-pass" placeholder="Min. 6 karakter"/></div>
+    <div class="af hidden" id="w-pass2"><label>Konfirmasi Sandi</label><input type="password" id="a-pass2" placeholder="Ulangi sandi"/></div>
+    <div class="af hidden" id="w-role"><label>Daftar Sebagai</label><select id="a-role"><option value="pasien">Pasien</option><option value="perawat">Perawat / Tenaga Kesehatan</option></select></div>
+    <button class="abtn" id="a-btn" data-mode="masuk" onclick="doAuth()">Masuk</button>
+    <div id="a-msg" class="amsg"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="s-app" class="scr">
+  <div class="topbar">
+    <div class="tb-brand">FerFlow</div>
+    <div class="tb-r"><div class="cdot"></div><div class="rpill" id="tb-role">Pasien</div><div class="av" id="tb-av" onclick="goPage('pg-profil')">?</div></div>
+  </div>
+  <div class="pages">
+
+    <!-- ===== PASIEN: BERANDA ===== -->
+    <div id="pg-home" class="pg on">
+      <div class="pg-title" id="home-title">Selamat Datang</div>
+      <div class="pg-date" id="home-date"></div>
+      <!-- Hero sisa cairan -->
+      <div class="hero">
+        <div class="h-b1"></div><div class="h-b2"></div>
+        <div class="h-top"><div class="h-lbl">Sisa Cairan Hari Ini</div><div class="sdot" id="hero-dot" style="background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.3)"></div></div>
+        <div class="h-main"><span class="h-sisa" id="hero-sisa">--</span><span class="h-unit">ml</span><div class="h-sub" id="hero-sub">Lengkapi profil untuk memulai</div></div>
+        <div class="h-bar"><div class="h-bar-lbl"><span>0 ml</span><span id="hero-max">-- ml</span></div><div class="h-trk"><div class="h-fill" id="hero-fill" style="width:0%"></div></div></div>
+        <div class="h-stats4">
+          <div class="hstat"><div class="hstat-v" id="h-diminum">0</div><div class="hstat-l">Cairan Masuk (ml)</div></div>
+          <div class="hstat"><div class="hstat-v" id="h-keluar-home">0</div><div class="hstat-l">Cairan Keluar (ml)</div></div>
+          <div class="hstat"><div class="hstat-v" id="h-batas">--</div><div class="hstat-l">Batas Cairan (ml)</div></div>
+          <div class="hstat"><div class="hstat-v" id="h-neraca-home">--</div><div class="hstat-l">Neraca Cairan (ml)</div></div>
+        </div>
+      </div>
+      <div class="mot"><div class="mot-ico">&#127754;</div><p id="mot-txt">Setiap tetes yang kamu kendalikan adalah kemenangan kecil untuk kesehatanmu.</p></div>
+      <div class="mgrid">
+        <div class="mc"><div class="mc-ico" style="background:#F0FDF4"><svg viewBox="0 0 24 24" stroke="#16A34A" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="mc-v" id="h-idwg">--</div><div class="mc-l">IDWG Terakhir</div></div>
+        <div class="mc"><div class="mc-ico" style="background:#FFF7ED"><svg viewBox="0 0 24 24" stroke="#D97706" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><div class="mc-v" id="h-bbpre">--</div><div class="mc-l">BB Pre-HD Terakhir</div></div>
+        <div class="mc" style="grid-column:1/-1"><div class="chdr" style="margin-bottom:8px"><div class="cico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="ctitle">Jadwal HD Terdekat</div></div><div id="h-jadwal"><div class="empty" style="padding:9px 0"><div class="emp-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><p>Belum ada jadwal HD.</p></div></div></div>
+      </div>
+    </div>
+
+    <!-- ===== PASIEN: CAIRAN MASUK ===== -->
+    <div id="pg-cairan" class="pg">
+      <div class="pg-title">Cairan Masuk</div><div class="pg-date" id="c-date"></div>
+      <div class="ro-ban hidden" id="c-ro"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>Mode monitoring - data hanya dapat dilihat.</p></div>
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><div><div class="ctitle">Asupan Cairan Hari Ini</div><div class="csub" id="c-sub"></div></div></div>
+        <div id="c-pill"></div>
+        <div class="prog"><div class="prog-lbl"><span id="c-pl">0 ml dikonsumsi</span><span id="c-pr">-- ml batas</span></div><div class="prog-trk"><div class="prog-fill" id="c-fill" style="width:0%;background:var(--green)"></div><div class="prog-pct" id="c-pct">0%</div></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px"><div class="wkbadge" id="c-waktu">Pagi</div><button id="btn-reset" onclick="resetFluids()" style="background:none;border:none;font-size:12px;font-weight:700;color:var(--g400);cursor:pointer;font-family:inherit;">Reset</button></div>
+        <div class="inprow"><input id="c-inp" placeholder="Contoh: 300 ml teh manis" autocomplete="off"/><button class="btn-b" id="btn-add" onclick="addFluid()">+ Tambah</button></div>
+        <div id="c-list"></div>
+      </div>
+      <!-- Neraca Cairan Harian -->
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:var(--purple-s)"><svg viewBox="0 0 24 24" stroke="var(--purple)" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div><div class="ctitle">Neraca Cairan Harian</div><div class="csub">Masuk - Keluar</div></div></div>
+        <div id="neraca-display"></div>
+      </div>
+    </div>
+
+    <!-- ===== PASIEN: CAIRAN KELUAR ===== -->
+    <div id="pg-keluar" class="pg">
+      <div class="pg-title">Cairan Keluar</div><div class="pg-date" id="ko-date"></div>
+      <div class="ro-ban hidden" id="ko-ro"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>Mode monitoring - data hanya dapat dilihat.</p></div>
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:#FFF7ED"><svg viewBox="0 0 24 24" stroke="#C2410C" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/></svg></div><div><div class="ctitle">Input Cairan Keluar Hari Ini</div><div class="csub" id="ko-sub"></div></div></div>
+        <div class="fgrid">
+          <div class="fl full"><label>Ultrafiltrasi HD (ml)</label><input id="ko-uf" type="number" placeholder="1500" min="0"/></div>
+          <div class="fl full"><label>Produksi Urin 24 Jam (ml)</label><input id="ko-urin" type="number" placeholder="0" min="0"/></div>
+          <div class="fl full"><label>Muntah (ml)</label><input id="ko-muntah" type="number" placeholder="0" min="0"/></div>
+          <div class="fl full"><label>Lainnya (ml)</label><input id="ko-lain" type="number" placeholder="0" min="0"/></div>
+        </div>
+        <button class="btn-b full" id="btn-savekeluar" onclick="saveCairanKeluar()">Simpan Cairan Keluar</button>
+      </div>
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:var(--purple-s)"><svg viewBox="0 0 24 24" stroke="var(--purple)" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div><div class="ctitle">Ringkasan Neraca Cairan</div></div></div>
+        <div id="ko-neraca"></div>
+      </div>
+    </div>
+
+    <!-- ===== PASIEN: BERAT BADAN & IDWG ===== -->
+    <div id="pg-bb" class="pg">
+      <div class="pg-title">Berat Badan &amp; IDWG</div><div class="pg-date" id="bb-date"></div>
+      <div class="ro-ban hidden" id="bb-ro"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>Mode monitoring - data hanya dapat dilihat.</p></div>
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:#F0FDF4"><svg viewBox="0 0 24 24" stroke="#16A34A" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div><div class="ctitle">Input Berat Badan</div><div class="csub" id="bb-dw">BB Kering: --</div></div></div>
+        <div class="fgrid">
+          <div class="fl"><label>BB Pre-HD (kg)</label><input id="bb-pre" type="number" step="0.1" placeholder="62.5"/></div>
+          <div class="fl"><label>BB Post-HD (kg)</label><input id="bb-post" type="number" step="0.1" placeholder="60.0"/></div>
+        </div>
+        <button class="btn-b full" id="btn-savebb" onclick="saveWeight()">Simpan &amp; Hitung IDWG</button>
+        <div id="idwg-box" class="idwg-box"><div class="idwg-v" id="idwg-val"></div><div class="idwg-d" id="idwg-desc"></div></div>
+        <div class="info-box"><strong>Cara Hitung IDWG</strong><p>IDWG = BB Pre-HD hari ini − BB Post-HD sesi sebelumnya. Batas aman &lt;5% BB Kering. Kenaikan berlebih berisiko sesak napas dan tekanan jantung.</p></div>
+      </div>
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><div class="ctitle">Grafik Berat Badan &amp; IDWG</div><div class="csub">10 data terakhir</div></div></div>
+        <div class="wtchart"><canvas id="wt-canvas"></canvas></div>
+        <div class="wt-legend"><div class="wt-leg"><div class="wt-dot" style="background:var(--blue)"></div>Pre-HD</div><div class="wt-leg"><div class="wt-dot" style="background:var(--green)"></div>Post-HD</div><div class="wt-leg"><div class="wt-dot" style="background:#CBD5E1"></div>BB Kering</div></div>
+        <div id="bb-hist" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <!-- ===== PASIEN: JADWAL HD ===== -->
+    <div id="pg-jadwal" class="pg">
+      <div class="pg-title">Jadwal Hemodialisis</div><div class="pg-date" id="jd-date"></div>
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="ctitle">Tambah Jadwal HD</div></div>
+        <div class="fgrid">
+          <div class="fl full"><label>Tanggal HD</label><input id="jd-tgl" type="date"/></div>
+          <div class="fl full"><label>Shift</label><select id="jd-shift"><option>Pagi (06.00-10.00)</option><option>Siang (10.00-14.00)</option><option>Sore (14.00-18.00)</option><option>Malam (18.00-22.00)</option></select></div>
+          <div class="fl full"><label>Catatan</label><input id="jd-note" placeholder="Misal: RS Pusat, dr. Andi"/></div>
+        </div>
+        <button class="btn-b full" id="btn-addjd" onclick="addJadwal()">+ Tambah Jadwal</button>
+      </div>
+      <div class="card"><div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div class="ctitle">Daftar Jadwal</div></div><div id="jadwal-list"></div></div>
+    </div>
+
+    <!-- ===== PASIEN: RIWAYAT LENGKAP ===== -->
+    <div id="pg-riwayat" class="pg">
+      <div class="pg-title">Riwayat &amp; Ekspor</div><div class="pg-date" id="rv-date"></div>
+      <!-- Filter range -->
+      <div class="ftabs"><button class="ftab on" onclick="fHist('7',this)">7 Hari</button><button class="ftab" onclick="fHist('14',this)">14 Hari</button><button class="ftab" onclick="fHist('30',this)">30 Hari</button><button class="ftab" onclick="fHist('all',this)">Semua</button></div>
+
+      <!-- Riwayat Cairan -->
+      <div class="rv-section">
+        <div class="rv-section-title">💧 Riwayat Cairan Masuk &amp; Neraca</div>
+        <div class="card" style="padding:13px"><div id="hist-list"><div class="empty"><p>Memuat...</p></div></div></div>
+      </div>
+
+      <!-- Riwayat Berat & IDWG -->
+      <div class="rv-section">
+        <div class="rv-section-title">⚖️ Riwayat Berat Badan &amp; IDWG</div>
+        <div class="card" style="padding:13px"><div id="rv-bb-list"><div class="empty"><p>Memuat...</p></div></div></div>
+      </div>
+
+      <!-- Riwayat Jadwal HD -->
+      <div class="rv-section">
+        <div class="rv-section-title">📅 Riwayat Jadwal HD</div>
+        <div class="card" style="padding:13px"><div id="rv-jadwal-list"><div class="empty"><p>Memuat...</p></div></div></div>
+      </div>
+
+      <!-- Ekspor -->
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="ctitle">Ekspor Data</div></div>
+        <button class="expbtn" onclick="exportCSV()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Ekspor ke CSV (Excel)</button>
+        <button class="expbtn" onclick="exportJSON()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Ekspor JSON (Cadangan)</button>
+      </div>
+    </div>
+
+    <!-- ===== PASIEN: GRAFIK ===== -->
+    <div id="pg-grafik" class="pg">
+      <div class="pg-title">Grafik Klinis</div><div class="pg-date" id="gf-date"></div>
+      <div class="ftabs" id="grafik-ftabs"><button class="ftab on" onclick="fGrafik('7',this)">7 Hari</button><button class="ftab" onclick="fGrafik('14',this)">14 Hari</button><button class="ftab" onclick="fGrafik('30',this)">30 Hari</button></div>
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><div><div class="ctitle">Grafik Cairan Harian</div><div class="csub">Masuk vs Keluar</div></div></div>
+        <div class="fluid-chart"><canvas id="fluid-canvas"></canvas></div>
+        <div class="wt-legend"><div class="wt-leg"><div class="wt-dot" style="background:var(--blue)"></div>Cairan Masuk</div><div class="wt-leg"><div class="wt-dot" style="background:#C2410C"></div>Cairan Keluar</div><div class="wt-leg"><div class="wt-dot" style="background:var(--purple)"></div>Neraca</div></div>
+      </div>
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:#F0FDF4"><svg viewBox="0 0 24 24" stroke="#16A34A" fill="none" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><div class="ctitle">Grafik Berat &amp; IDWG</div><div class="csub">Tren berat badan</div></div></div>
+        <div class="wtchart"><canvas id="wt-canvas2"></canvas></div>
+        <div class="wt-legend"><div class="wt-leg"><div class="wt-dot" style="background:var(--blue)"></div>Pre-HD</div><div class="wt-leg"><div class="wt-dot" style="background:var(--green)"></div>Post-HD</div><div class="wt-leg"><div class="wt-dot" style="background:#CBD5E1"></div>BB Kering</div></div>
+      </div>
+    </div>
+
+    <!-- ===== PASIEN: PROFIL ===== -->
+    <div id="pg-profil" class="pg">
+      <div class="pg-title">Profil Pasien</div><div class="pg-date" id="pr-date"></div>
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="ctitle">Data Diri</div><div class="csub" id="pr-sub">--</div></div></div>
+        <div class="fgrid">
+          <div class="fl full"><label>Nama / Inisial</label><input id="p-nama" placeholder="Nama pasien"/></div>
+          <div class="fl"><label>Usia (tahun)</label><input id="p-usia" type="number" placeholder="50"/></div>
+          <div class="fl"><label>BB Kering (kg)</label><input id="p-dw" type="number" step="0.1" placeholder="60.0"/></div>
+          <div class="fl full"><label>Status Produksi Urin</label><select id="p-urin" onchange="toggleUrin()"><option value="anuria">Anuria (Tidak Ada Urin)</option><option value="ada">Masih Ada Urin</option></select></div>
+          <div class="fl full hidden" id="w-u24"><label>Jumlah Urin 24 Jam (ml)</label><input id="p-u24" type="number" placeholder="300"/></div>
+          <div class="fl full"><label>Diagnosa (opsional)</label><input id="p-dx" placeholder="Misal: CKD stage 5"/></div>
+        </div>
+        <button class="btn-b full" id="btn-saveprofil" onclick="saveProfil()">Simpan ke Firebase</button>
+      </div>
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg></div><div class="ctitle">Informasi Akun</div></div>
+        <div class="irows">
+          <div class="irow"><span class="irl">Email</span><span class="irv" id="pr-email">--</span></div>
+          <div class="irow"><span class="irl">Firebase UID</span><span class="irv" id="pr-uid" style="font-size:10px;background:var(--g100);padding:2px 8px;border-radius:6px;font-family:monospace;word-break:break-all;">--</span></div>
+          <div class="irow"><span class="irl">Role</span><span class="irv" id="pr-role">--</span></div>
+          <div class="irow"><span class="irl">Database</span><span class="irv" style="color:var(--green)">Firebase Firestore</span></div>
+        </div>
+        <button class="expbtn" style="margin-top:12px" onclick="doLogout()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout dari FerFlow</button>
+      </div>
+    </div>
+
+    <!-- ===== PERAWAT: DASHBOARD ===== -->
+    <div id="pg-nurse" class="pg">
+      <div class="pg-title">Dashboard Perawat</div><div class="pg-date" id="nrs-date"></div>
+      <div class="nstats">
+        <div class="nstat"><div class="nstat-v" id="nrs-total">0</div><div class="nstat-l">Total Pasien</div></div>
+        <div class="nstat"><div class="nstat-v" style="color:var(--red)" id="nrs-alert">0</div><div class="nstat-l">Perlu Perhatian</div></div>
+        <div class="nstat"><div class="nstat-v" style="color:var(--green)" id="nrs-aman">0</div><div class="nstat-l">Status Aman</div></div>
+      </div>
+      <!-- Jadwal HD Hari Ini -->
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:#F0FDF4"><svg viewBox="0 0 24 24" stroke="#16A34A" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div><div class="ctitle">Jadwal HD Hari Ini</div><div class="csub" id="nrs-date2"></div></div></div>
+        <div id="nrs-jadwal-today"></div>
+      </div>
+      <!-- Kelola Pasien -->
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div><div class="ctitle">Kelola Pasien</div><div class="csub">Data real-time dari Firebase</div></div></div>
+        <div id="nurse-list"><div class="empty"><div class="emp-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><p>Memuat data pasien dari cloud...</p></div></div>
+      </div>
+    </div>
+
+    <!-- ===== PERAWAT: RIWAYAT ===== -->
+    <div id="pg-nrs-riwayat" class="pg">
+      <div class="pg-title">Riwayat &amp; Monitoring</div><div class="pg-date" id="nrv-date"></div>
+      <div class="ftabs" id="nrv-ftabs"><button class="ftab on" onclick="fNrsHist('7',this)">7 Hari</button><button class="ftab" onclick="fNrsHist('14',this)">14 Hari</button><button class="ftab" onclick="fNrsHist('30',this)">30 Hari</button></div>
+      <div class="rv-section">
+        <div class="rv-section-title">📅 Kepatuhan Jadwal HD</div>
+        <div class="card" style="padding:13px"><div id="nrv-jadwal-list"><div class="empty"><p>Pilih pasien terlebih dahulu di Detail Pasien</p></div></div></div>
+      </div>
+      <div class="rv-section">
+        <div class="rv-section-title">💧 Riwayat Cairan</div>
+        <div class="card" style="padding:13px"><div id="nrv-cairan-list"><div class="empty"><p>Pilih pasien terlebih dahulu di Detail Pasien</p></div></div></div>
+      </div>
+      <div class="rv-section">
+        <div class="rv-section-title">⚖️ Riwayat IDWG &amp; Berat Badan</div>
+        <div class="card" style="padding:13px"><div id="nrv-bb-list"><div class="empty"><p>Pilih pasien terlebih dahulu di Detail Pasien</p></div></div></div>
+      </div>
+    </div>
+
+  </div><!-- /pages -->
+
+  <!-- Nav Pasien -->
+  <nav class="bnav" id="bnav-p">
+    <button class="nb on" onclick="goPage('pg-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Beranda</button>
+    <button class="nb" onclick="goPage('pg-cairan')"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>Masuk</button>
+    <button class="nb" onclick="goPage('pg-keluar')"><svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/></svg>Keluar</button>
+    <button class="nb" onclick="goPage('pg-bb')"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Berat</button>
+    <button class="nb" onclick="goPage('pg-jadwal')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Jadwal</button>
+    <button class="nb" onclick="goPage('pg-grafik')"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Grafik</button>
+    <button class="nb" onclick="goPage('pg-riwayat')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Riwayat</button>
+    <button class="nb" onclick="goPage('pg-profil')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</button>
+  </nav>
+  <!-- Nav Perawat -->
+  <nav class="bnav hidden" id="bnav-n">
+    <button class="nb on" onclick="goPage('pg-nurse')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Dashboard</button>
+    <button class="nb" onclick="goPage('pg-nrs-riwayat')"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Riwayat</button>
+    <button class="nb" onclick="goPage('pg-profil')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</button>
+  </nav>
+</div><!-- /s-app -->
+
+<!-- OVERLAY: DETAIL PASIEN (PERAWAT) -->
+<div id="overlay-det" class="full-overlay hidden">
+  <div class="overlay-hdr">
+    <button class="overlay-back" onclick="closeOverlay()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div>
+      <div class="overlay-title" id="od-name">--</div>
+      <div style="font-size:11px;color:var(--g400);font-family:monospace" id="od-uid-lbl">--</div>
+    </div>
+  </div>
+  <div class="overlay-body">
+    <!-- Tab navigasi -->
+    <div class="dtabs">
+      <button class="dtab on" onclick="showDTab('dt-profil',this)">Profil</button>
+      <button class="dtab" onclick="showDTab('dt-cairan',this)">Cairan</button>
+      <button class="dtab" onclick="showDTab('dt-neraca',this)">Neraca</button>
+      <button class="dtab" onclick="showDTab('dt-bb',this)">Berat/IDWG</button>
+      <button class="dtab" onclick="showDTab('dt-jadwal',this)">Jadwal</button>
+      <button class="dtab" onclick="showDTab('dt-grafik',this)">Grafik</button>
+    </div>
+
+    <!-- Tab Profil -->
+    <div id="dt-profil" class="dpanel on">
+      <div class="card">
+        <div class="fgrid">
+          <div class="fl"><label>Usia</label><input id="nd-usia" disabled/></div>
+          <div class="fl"><label>BB Kering</label><input id="nd-dw2" disabled/></div>
+          <div class="fl full"><label>Status Urin</label><input id="nd-urin" disabled/></div>
+          <div class="fl full"><label>Diagnosa</label><input id="nd-dx" disabled/></div>
+          <div class="fl full"><label>Email</label><input id="nd-email" disabled/></div>
+        </div>
+      </div>
+      <!-- Ringkasan klinis hari ini -->
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="ctitle">Ringkasan Klinis Hari Ini</div></div>
+        <div id="nd-ringkasan"></div>
+      </div>
+    </div>
+
+    <!-- Tab Cairan -->
+    <div id="dt-cairan" class="dpanel">
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><div class="ctitle">Asupan Cairan Hari Ini</div></div>
+        <div id="nd-cairan"></div>
+      </div>
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:#FFF7ED"><svg viewBox="0 0 24 24" stroke="#C2410C" fill="none" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/></svg></div><div class="ctitle">Cairan Keluar Hari Ini</div></div>
+        <div id="nd-keluar"></div>
+      </div>
+    </div>
+
+    <!-- Tab Neraca -->
+    <div id="dt-neraca" class="dpanel">
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:var(--purple-s)"><svg viewBox="0 0 24 24" stroke="var(--purple)" fill="none" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="ctitle">Neraca Cairan</div></div>
+        <div id="nd-neraca"></div>
+      </div>
+    </div>
+
+    <!-- Tab BB & IDWG -->
+    <div id="dt-bb" class="dpanel">
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="ctitle">Riwayat Berat Badan</div></div>
+        <div id="nd-bb"></div>
+      </div>
+    </div>
+
+    <!-- Tab Jadwal -->
+    <div id="dt-jadwal" class="dpanel">
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="ctitle">Jadwal &amp; Kepatuhan HD</div></div>
+        <div id="nd-jadwal"></div>
+      </div>
+    </div>
+
+    <!-- Tab Grafik -->
+    <div id="dt-grafik" class="dpanel">
+      <div class="card">
+        <div class="chdr"><div class="cico"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><div class="ctitle">Grafik Cairan</div></div>
+        <div class="fluid-chart"><canvas id="nd-fluid-canvas"></canvas></div>
+        <div class="wt-legend"><div class="wt-leg"><div class="wt-dot" style="background:var(--blue)"></div>Cairan Masuk</div><div class="wt-leg"><div class="wt-dot" style="background:#C2410C"></div>Cairan Keluar</div></div>
+      </div>
+      <div class="card">
+        <div class="chdr"><div class="cico" style="background:#F0FDF4"><svg viewBox="0 0 24 24" stroke="#16A34A" fill="none" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="ctitle">Grafik Berat &amp; IDWG</div></div>
+        <div class="wtchart"><canvas id="nd-wt-canvas"></canvas></div>
+        <div class="wt-legend"><div class="wt-leg"><div class="wt-dot" style="background:var(--blue)"></div>Pre-HD</div><div class="wt-leg"><div class="wt-dot" style="background:var(--green)"></div>Post-HD</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyB2yNOqoU4-yZ9TnZFPP_YYsyXTt1v2rjk",
+  authDomain:"ferflow-dialysis-care.firebaseapp.com",
+  projectId:"ferflow-dialysis-care",
+  storageBucket:"ferflow-dialysis-care.firebasestorage.app",
+  messagingSenderId:"421051774000",
+  appId:"1:421051774000:web:9361dccce6e67946c029f5"
+});
+const auth=firebase.auth();
+const db=firebase.firestore();
+db.enablePersistence().catch(()=>{});
+
+let UID=null,ROLE=null,EMAIL=null,BATAS=0,_tt,_hdays="7",_gfdays="7",_nrsHist="7",_detUID=null;
+const MOTS=["Setiap tetes yang kamu kendalikan adalah kemenangan kecil untuk kesehatanmu.","Konsistensi hari ini adalah kesehatan hari esok. Tetap semangat!","Kamu lebih kuat dari penyakitmu. Pantau, catat, dan hidup lebih sehat.","Dialisis bukan akhir, ini awal dari hidup yang lebih teratur.","Satu tegukan bijak hari ini, satu langkah maju untuk jantungmu."];
+
+// ===== FIRESTORE COLLECTIONS =====
+const cUsers=()=>db.collection("users");
+const cRoles=()=>db.collection("roles");
+const cDaftar=()=>db.collection("daftarPasien");
+const cCairan=u=>db.collection("cairan").doc(u).collection("harian");
+const cKeluar=u=>db.collection("cairanKeluar").doc(u).collection("harian");
+const cBB=u=>db.collection("beratBadan").doc(u).collection("data");
+const cJadwal=u=>db.collection("jadwal").doc(u).collection("items");
+
+// ===== HELPERS =====
+function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function getWaktu(){const h=new Date().getHours();if(h<12)return"Pagi";if(h<15)return"Siang";if(h<18)return"Sore";return"Malam";}
+function toast(msg){const el=document.getElementById("toast");clearTimeout(_tt);el.textContent=msg;el.classList.add("on");_tt=setTimeout(()=>el.classList.remove("on"),2500);}
+function amsg(t,c){const m=document.getElementById("a-msg");m.textContent=t;m.className="amsg "+c;}
+function setDates(){
+  const ds=new Date().toLocaleDateString("id-ID",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  ["home-date","c-date","ko-date","bb-date","jd-date","rv-date","pr-date","nrs-date","gf-date","nrv-date"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=ds;});
+  const el2=document.getElementById("ko-sub");if(el2)el2.textContent=ds;
+  const el3=document.getElementById("nrs-date2");if(el3)el3.textContent=ds;
+}
+function cutoffDate(days){
+  if(days==="all")return null;
+  const d=new Date();d.setDate(d.getDate()-parseInt(days));
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+
+// ===== AUTH =====
+auth.onAuthStateChanged(async user=>{
+  if(user){
+    UID=user.uid;EMAIL=user.email;
+    try{const s=await cRoles().doc(UID).get();ROLE=s.exists?(s.data().role||"pasien"):"pasien";}catch{ROLE="pasien";}
+    document.getElementById("s-load").classList.remove("on");
+    await startApp();
+  }else{
+    document.getElementById("s-load").classList.remove("on");
+    document.getElementById("s-auth").classList.add("on");
+  }
+});
+
+function authTab(t){
+  ["masuk","daftar"].forEach(x=>document.getElementById("t-"+x).classList.toggle("on",x===t));
+  document.getElementById("a-btn").dataset.mode=t;
+  document.getElementById("a-btn").textContent=t==="masuk"?"Masuk":"Buat Akun";
+  document.getElementById("w-pass2").classList.toggle("hidden",t==="masuk");
+  document.getElementById("w-role").classList.toggle("hidden",t==="masuk");
+  document.getElementById("a-msg").className="amsg";
+}
+
+async function doAuth(){
+  const email=document.getElementById("a-email").value.trim().toLowerCase();
+  const pass=document.getElementById("a-pass").value;
+  const mode=document.getElementById("a-btn").dataset.mode;
+  if(!email||!pass)return amsg("Email dan kata sandi wajib diisi.","err");
+  if(!email.includes("@"))return amsg("Format email tidak valid.","err");
+  const btn=document.getElementById("a-btn");
+  btn.disabled=true;btn.textContent="Memproses...";
+  try{
+    if(mode==="daftar"){
+      const p2=document.getElementById("a-pass2").value;
+      const role=document.getElementById("a-role").value;
+      if(pass.length<6)throw new Error("Kata sandi minimal 6 karakter.");
+      if(pass!==p2)throw new Error("Konfirmasi kata sandi tidak cocok.");
+      const cred=await auth.createUserWithEmailAndPassword(email,pass);
+      const uid=cred.user.uid;
+      await cRoles().doc(uid).set({role,email,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+      if(role==="pasien"){await cDaftar().doc(uid).set({userId:uid,nama:"(belum diisi)",email});}
+      amsg("Akun berhasil dibuat! Silakan masuk.","ok");
+      authTab("masuk");btn.disabled=false;btn.textContent="Masuk";
+    }else{
+      await auth.signInWithEmailAndPassword(email,pass);
+    }
+  }catch(e){
+    btn.disabled=false;btn.textContent=mode==="masuk"?"Masuk":"Buat Akun";
+    const m=e.message||"";
+    if(m.includes("user-not-found")||m.includes("wrong-password")||m.includes("invalid-credential"))return amsg("Email atau kata sandi salah.","err");
+    if(m.includes("email-already-in-use"))return amsg("Email sudah terdaftar.","err");
+    amsg(m,"err");
+  }
+}
+
+async function doLogout(){
+  await auth.signOut();
+  UID=null;ROLE=null;EMAIL=null;BATAS=0;
+  document.getElementById("s-app").classList.remove("on");
+  document.getElementById("a-email").value="";document.getElementById("a-pass").value="";
+  document.getElementById("a-msg").className="amsg";
+  document.getElementById("s-auth").classList.add("on");
+}
+
+// ===== APP START =====
+async function startApp(){
+  document.getElementById("s-app").classList.add("on");
+  const isN=ROLE==="perawat";
+  document.getElementById("tb-av").textContent=(EMAIL||"?").substring(0,2).toUpperCase();
+  const rp=document.getElementById("tb-role");
+  rp.textContent=isN?"Perawat":"Pasien";
+  isN?rp.classList.add("nurse"):rp.classList.remove("nurse");
+  document.getElementById("pr-sub").textContent=EMAIL||"--";
+  document.getElementById("pr-email").textContent=EMAIL||"--";
+  document.getElementById("pr-uid").textContent=UID||"--";
+  document.getElementById("pr-role").textContent=isN?"Perawat / Tenaga Kesehatan":"Pasien";
+  setDates();
+  document.getElementById("mot-txt").textContent=MOTS[new Date().getDate()%MOTS.length];
+  applyRole(isN);
+  document.getElementById("bnav-p").classList.toggle("hidden",isN);
+  document.getElementById("bnav-n").classList.toggle("hidden",!isN);
+  const profil=await loadProfilFS();
+  if(profil&&profil.nama){
+    if(!isN)document.getElementById("home-title").textContent="Halo, "+profil.nama;
+    fillProfil(profil);computeBatas(profil);
+  }
+  await refreshFluidUI();
+  await refreshKeluar();
+  await renderBBHistory();
+  await renderJadwal();
+  await updateHomeWeight();
+  if(isN){goPage("pg-nurse");await loadNurse();}else goPage("pg-home");
+}
+
+function applyRole(isN){
+  ["c-inp","bb-pre","bb-post","jd-tgl","jd-shift","jd-note","p-nama","p-usia","p-dw","p-urin","p-u24","p-dx","ko-uf","ko-urin","ko-muntah","ko-lain"].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=isN;});
+  ["btn-add","btn-savebb","btn-addjd","btn-saveprofil","btn-reset","btn-savekeluar"].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=isN;});
+  ["c-ro","bb-ro","ko-ro"].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle("hidden",!isN);});
+}
+
+// ===== PAGE NAVIGATION =====
+const NP={"pg-home":0,"pg-cairan":1,"pg-keluar":2,"pg-bb":3,"pg-jadwal":4,"pg-grafik":5,"pg-riwayat":6,"pg-profil":7};
+const NN={"pg-nurse":0,"pg-nrs-riwayat":1,"pg-profil":2};
+function goPage(id){
+  document.querySelectorAll(".pg").forEach(p=>p.classList.remove("on"));
+  document.getElementById(id).classList.add("on");
+  const isN=ROLE==="perawat",navId=isN?"bnav-n":"bnav-p",map=isN?NN:NP;
+  document.querySelectorAll("#"+navId+" .nb").forEach((b,i)=>b.classList.toggle("on",i===(map[id]!==undefined?map[id]:0)));
+  if(id==="pg-riwayat"){renderHist(_hdays);renderRvBB(_hdays);renderRvJadwal();}
+  if(id==="pg-profil")loadProfilFS().then(p=>{if(p)fillProfil(p);});
+  if(id==="pg-bb"){renderBBHistory();updateHomeWeight();}
+  if(id==="pg-nurse")loadNurse();
+  if(id==="pg-jadwal")renderJadwal();
+  if(id==="pg-cairan")refreshFluidUI();
+  if(id==="pg-keluar")refreshKeluar();
+  if(id==="pg-grafik")renderGrafik(_gfdays);
+  if(id==="pg-nrs-riwayat"&&_detUID)loadNrsRiwayat(_detUID,_nrsHist);
+}
+
+// ===== PROFIL =====
+async function loadProfilFS(){try{const s=await cUsers().doc(UID).get();return s.exists?s.data():null;}catch{return null;}}
+
+function fillProfil(p){
+  ["nama","usia","dx"].forEach(k=>{const el=document.getElementById("p-"+k);if(el&&p[k]!==undefined)el.value=p[k];});
+  if(p.dw)document.getElementById("p-dw").value=p.dw;
+  if(p.u24)document.getElementById("p-u24").value=p.u24;
+  if(p.urin)document.getElementById("p-urin").value=p.urin;
+  toggleUrin();
+  if(p.dw)document.getElementById("bb-dw").textContent="BB Kering: "+p.dw+" kg";
+}
+
+function toggleUrin(){document.getElementById("w-u24").classList.toggle("hidden",document.getElementById("p-urin").value!=="ada");}
+function computeBatas(p){BATAS=p.urin==="ada"?500+(p.u24||0):500;}
+
+async function saveProfil(){
+  const profil={nama:document.getElementById("p-nama").value.trim(),usia:parseInt(document.getElementById("p-usia").value)||0,dw:parseFloat(document.getElementById("p-dw").value)||0,urin:document.getElementById("p-urin").value,u24:parseFloat(document.getElementById("p-u24").value)||0,dx:document.getElementById("p-dx").value,email:EMAIL,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+  if(!profil.nama)return toast("Nama wajib diisi.");
+  if(!profil.dw)return toast("BB Kering wajib diisi.");
+  const btn=document.getElementById("btn-saveprofil");btn.disabled=true;btn.textContent="Menyimpan...";
+  try{
+    await cUsers().doc(UID).set(profil,{merge:true});
+    await cDaftar().doc(UID).set({userId:UID,nama:profil.nama,email:EMAIL},{merge:true});
+    computeBatas(profil);
+    document.getElementById("home-title").textContent="Halo, "+profil.nama;
+    document.getElementById("bb-dw").textContent="BB Kering: "+profil.dw+" kg";
+    toast("Profil tersimpan ke Firebase");
+  }catch(e){toast("Gagal: "+e.message);}
+  btn.disabled=false;btn.textContent="Simpan ke Firebase";
+}
+
+// ===== CAIRAN MASUK =====
+async function getCairanFS(uid,tgl){try{const s=await cCairan(uid).doc(tgl).get();return s.exists?(s.data().items||[]):[];}catch{return[];}}
+
+async function saveCairanFS(uid,tgl,items){
+  const total=items.reduce((s,f)=>s+f.ml,0);
+  const p=await loadProfilFS();
+  const batas=p?p.urin==="ada"?500+(p.u24||0):500:500;
+  const pct=batas?Math.round(Math.min(total/batas*100,100)):0;
+  const status=!batas?"unknown":total>batas?"red":total/batas>0.8?"yellow":"green";
+  await cCairan(uid).doc(tgl).set({items,total,batas,status,pct,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+}
+
+async function addFluid(){
+  if(ROLE==="perawat")return;
+  const txt=document.getElementById("c-inp").value.trim();
+  if(!txt)return toast("Masukkan keterangan cairan");
+  const m=txt.match(/\d+(\.\d+)?/);
+  if(!m)return toast("Sertakan jumlah ml, contoh: 300 ml teh");
+  const ml=parseFloat(m[0]),tgl=today(),now=new Date();
+  const btn=document.getElementById("btn-add");btn.disabled=true;btn.textContent="...";
+  try{
+    const items=await getCairanFS(UID,tgl);
+    items.push({label:txt,ml,waktu:getWaktu(),time:now.getHours()+":"+String(now.getMinutes()).padStart(2,"0"),ts:now.toISOString()});
+    await saveCairanFS(UID,tgl,items);
+    document.getElementById("c-inp").value="";
+    await refreshFluidUI();
+    toast("Cairan dicatat");
+    const total=items.reduce((s,f)=>s+f.ml,0);
+    if(BATAS&&total>BATAS)setTimeout(()=>toast("⚠️ Batas cairan terlampaui!"),600);
+  }catch(e){toast("Gagal: "+e.message);}
+  btn.disabled=false;btn.textContent="+ Tambah";
+}
+
+async function removeFluid(i){
+  if(ROLE==="perawat")return;
+  const tgl=today(),items=await getCairanFS(UID,tgl);
+  items.splice(i,1);await saveCairanFS(UID,tgl,items);await refreshFluidUI();
+}
+
+async function resetFluids(){
+  if(ROLE==="perawat")return;
+  if(!confirm("Reset catatan cairan hari ini?"))return;
+  await saveCairanFS(UID,today(),[]);await refreshFluidUI();toast("Catatan direset");
+}
+
+async function refreshFluidUI(){
+  const tgl=today();
+  let snap;try{snap=await cCairan(UID).doc(tgl).get();}catch{snap=null;}
+  const data=snap&&snap.exists?snap.data():{};
+  const items=data.items||[],total=data.total||0;
+  const sisa=BATAS?Math.max(BATAS-total,0):0;
+  const pct=BATAS?Math.min(total/BATAS*100,100):0;
+  let bar="var(--green)",pc="green",pt="Status Aman",dc="#22c55e",ds="rgba(34,197,94,.3)";
+  if(BATAS){
+    if(total>BATAS){bar="var(--red)";pc="red";pt="Batas Terlampaui!";dc="#dc2626";ds="rgba(220,38,38,.3)";}
+    else if(pct>80){bar="var(--yellow)";pc="yellow";pt="Peringatan - mendekati batas";dc="#d97706";ds="rgba(217,119,6,.3)";}
+  }
+  const elSisa=document.getElementById("hero-sisa");if(elSisa)elSisa.textContent=BATAS?sisa:"--";
+  const elMax=document.getElementById("hero-max");if(elMax)elMax.textContent=BATAS?BATAS+" ml":"-- ml";
+  const elFill=document.getElementById("hero-fill");if(elFill)elFill.style.width=pct+"%";
+  const elSub=document.getElementById("hero-sub");if(elSub)elSub.textContent=BATAS?"dari batas "+BATAS+" ml/hari":"Lengkapi profil untuk memulai";
+  const dot=document.getElementById("hero-dot");if(dot){dot.style.background=dc;dot.style.boxShadow="0 0 0 3px "+ds;}
+  const elDiminum=document.getElementById("h-diminum");if(elDiminum)elDiminum.textContent=total;
+  const elBatas=document.getElementById("h-batas");if(elBatas)elBatas.textContent=BATAS||"--";
+  const elPl=document.getElementById("c-pl");if(elPl)elPl.textContent=total+" ml dikonsumsi";
+  const elPr=document.getElementById("c-pr");if(elPr)elPr.textContent=(BATAS||"--")+" ml batas";
+  const elCFill=document.getElementById("c-fill");if(elCFill){elCFill.style.width=pct+"%";elCFill.style.background=bar;}
+  const elCPct=document.getElementById("c-pct");if(elCPct)elCPct.textContent=Math.round(pct)+"%";
+  const elWaktu=document.getElementById("c-waktu");if(elWaktu)elWaktu.textContent=getWaktu();
+  const pw=document.getElementById("c-pill");
+  if(pw)pw.innerHTML=(total>0&&BATAS)?'<div class="pill '+pc+'" style="margin-bottom:11px"><div class="pdot"></div>'+pt+'</div>':"";
+  const list=document.getElementById("c-list");
+  if(list){
+    if(!items.length){list.innerHTML='<div class="empty"><div class="emp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="1.5" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><p>Belum ada catatan cairan hari ini.</p></div>';}
+    else list.innerHTML=items.map((f,i)=>{
+      const del=ROLE!=="perawat"?'<button class="fi-del" onclick="removeFluid('+i+')">\u00d7</button>':"";
+      return '<div class="fi"><div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><div class="fi-body"><div class="fi-lbl">'+f.label+'</div><div class="fi-time">'+f.waktu+' - '+f.time+'</div></div><span class="fi-ml">'+f.ml+' ml</span>'+del+'</div>';
+    }).join("");
+  }
+  // Update neraca
+  await refreshNeracaUI();
+}
+
+// ===== CAIRAN KELUAR =====
+async function getKeluarFS(uid,tgl){try{const s=await cKeluar(uid).doc(tgl).get();return s.exists?s.data():{};}catch{return{};}}
+
+async function saveCairanKeluar(){
+  if(ROLE==="perawat")return;
+  const uf=parseFloat(document.getElementById("ko-uf").value)||0;
+  const urin=parseFloat(document.getElementById("ko-urin").value)||0;
+  const muntah=parseFloat(document.getElementById("ko-muntah").value)||0;
+  const lain=parseFloat(document.getElementById("ko-lain").value)||0;
+  const total=uf+urin+muntah+lain;
+  const tgl=today();
+  const btn=document.getElementById("btn-savekeluar");btn.disabled=true;btn.textContent="Menyimpan...";
+  try{
+    await cKeluar(UID).doc(tgl).set({uf,urin,muntah,lain,total,date:tgl,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    await refreshKeluar();
+    toast("Cairan keluar tersimpan");
+  }catch(e){toast("Gagal: "+e.message);}
+  btn.disabled=false;btn.textContent="Simpan Cairan Keluar";
+}
+
+async function refreshKeluar(){
+  const tgl=today();
+  const ko=await getKeluarFS(UID,tgl);
+  const total=ko.total||0;
+  const elKo=document.getElementById("h-keluar-home");if(elKo)elKo.textContent=total;
+  // Isi form jika ada data
+  if(ko.uf!==undefined){
+    const uf=document.getElementById("ko-uf");if(uf&&!uf.disabled)uf.value=ko.uf||"";
+    const u=document.getElementById("ko-urin");if(u&&!u.disabled)u.value=ko.urin||"";
+    const m=document.getElementById("ko-muntah");if(m&&!m.disabled)m.value=ko.muntah||"";
+    const l=document.getElementById("ko-lain");if(l&&!l.disabled)l.value=ko.lain||"";
+  }
+  // Tampilkan ringkasan di halaman keluar
+  const el=document.getElementById("ko-neraca");
+  if(el){
+    if(!ko.total&&ko.total!==0){el.innerHTML='<div class="empty"><p>Belum ada data cairan keluar hari ini.</p></div>';
+    }else{
+      el.innerHTML='<div class="hrow"><span class="hk">Ultrafiltrasi HD</span><span class="hv">'+(ko.uf||0)+' ml</span></div>'+
+        '<div class="hrow"><span class="hk">Produksi Urin</span><span class="hv">'+(ko.urin||0)+' ml</span></div>'+
+        '<div class="hrow"><span class="hk">Muntah</span><span class="hv">'+(ko.muntah||0)+' ml</span></div>'+
+        '<div class="hrow"><span class="hk">Lainnya</span><span class="hv">'+(ko.lain||0)+' ml</span></div>'+
+        '<div class="hrow" style="border-top:1.5px solid var(--g200);padding-top:5px;margin-top:3px"><span class="hk" style="font-weight:700">Total Keluar</span><span class="hv" style="color:#C2410C">'+total+' ml</span></div>';
+    }
+  }
+  await refreshNeracaUI();
+}
+
+async function refreshNeracaUI(){
+  const tgl=today();
+  const cSnap=await cCairan(UID).doc(tgl).get().catch(()=>null);
+  const masuk=(cSnap&&cSnap.exists)?cSnap.data().total||0:0;
+  const ko=await getKeluarFS(UID,tgl);
+  const keluar=ko.total||0;
+  const neraca=masuk-keluar;
+  // Update home
+  const elN=document.getElementById("h-neraca-home");if(elN)elN.textContent=neraca>0?"+"+neraca:neraca;
+  // Update neraca display di halaman cairan masuk
+  renderNeracaBox("neraca-display",masuk,keluar,neraca);
+}
+
+function renderNeracaBox(elId,masuk,keluar,neraca){
+  const el=document.getElementById(elId);if(!el)return;
+  let cls="zero",sign="±";
+  if(neraca>0){cls="pos";sign="+";}
+  else if(neraca<0){cls="neg";sign="";}
+  el.innerHTML=
+    '<div class="neraca-box '+cls+'" style="margin-bottom:9px">'+
+    '<div class="neraca-v '+cls+'">'+sign+neraca+' ml</div>'+
+    '<div class="neraca-d">Masuk '+masuk+' ml − Keluar '+keluar+' ml</div>'+
+    '</div>'+
+    '<div class="hrow"><span class="hk">Total Cairan Masuk</span><span class="hv" style="color:var(--blue)">'+masuk+' ml</span></div>'+
+    '<div class="hrow"><span class="hk">Total Cairan Keluar</span><span class="hv" style="color:#C2410C">'+keluar+' ml</span></div>'+
+    '<div class="hrow"><span class="hk">Neraca (Masuk - Keluar)</span><span class="hv '+cls+'">'+sign+neraca+' ml</span></div>';
+}
+
+// ===== BERAT BADAN & IDWG =====
+async function saveWeight(){
+  if(ROLE==="perawat")return;
+  const pre=parseFloat(document.getElementById("bb-pre").value);
+  const post=parseFloat(document.getElementById("bb-post").value);
+  if(isNaN(pre))return toast("Masukkan BB Pre-HD");
+  const p=await loadProfilFS(),dw=p?p.dw:null;
+  // IDWG = Pre-HD hari ini - Post-HD sesi sebelumnya
+  let idwg=null,pct=null;
+  const prevSnap=await cBB(UID).orderBy(firebase.firestore.FieldPath.documentId(),"desc").limit(2).get().catch(()=>null);
+  let prevPost=null;
+  if(prevSnap&&!prevSnap.empty){
+    for(const doc of prevSnap.docs){
+      const d=doc.data();
+      if(d.post&&doc.id!==today()){prevPost=d.post;break;}
+    }
+  }
+  if(prevPost){
+    idwg=parseFloat((pre-prevPost).toFixed(2));
+    pct=dw?parseFloat(((pre-prevPost)/dw*100).toFixed(1)):null;
+  }else if(dw){
+    // Fallback: Pre - DW
+    idwg=parseFloat((pre-dw).toFixed(2));
+    pct=parseFloat(((pre-dw)/dw*100).toFixed(1));
+  }
+  const btn=document.getElementById("btn-savebb");btn.disabled=true;btn.textContent="Menyimpan...";
+  try{
+    await cBB(UID).doc(today()).set({pre,post:isNaN(post)?null:post,idwg,dw,pct,date:today(),ts:firebase.firestore.FieldValue.serverTimestamp()});
+    showIDWGBox(dw,idwg,pct);
+    await renderBBHistory();
+    await updateHomeWeight();
+    toast("Data berat disimpan");
+  }catch(e){toast("Gagal: "+e.message);}
+  btn.disabled=false;btn.textContent="Simpan & Hitung IDWG";
+}
+
+function showIDWGBox(dw,idwg,pct){
+  const box=document.getElementById("idwg-box");
+  if(!dw&&!pct){box.className="idwg-box warn";document.getElementById("idwg-val").textContent="--";document.getElementById("idwg-desc").textContent="Simpan profil dengan BB Kering terlebih dahulu.";return;}
+  const idwgStr=idwg!==null?(idwg>=0?"+":"")+idwg+" kg"+(pct!==null?" ("+pct+"%)":""):"--";
+  document.getElementById("idwg-val").textContent=idwgStr;
+  let cls,desc;
+  if(pct===null||pct===undefined){cls="warn";desc="Data sesi sebelumnya belum tersedia untuk menghitung IDWG akurat.";}
+  else if(pct<=3){cls="ok";desc="Normal - kenaikan BB dalam batas aman";}
+  else if(pct<=5){cls="warn";desc="Peringatan - mendekati batas 5%.";}
+  else{cls="bad";desc="MELEBIHI BATAS! Segera hubungi tim hemodialisis.";}
+  box.className="idwg-box "+cls;document.getElementById("idwg-desc").textContent=desc;
+}
+
+async function getBBAll(uid,limit){
+  try{
+    let q=cBB(uid).orderBy(firebase.firestore.FieldPath.documentId());
+    if(limit)q=q.limitToLast(limit);
+    const s=await q.get();
+    return s.docs.map(d=>({date:d.id,...d.data()}));
+  }catch{return[];}
+}
+
+async function renderBBHistory(){
+  const ws=await getBBAll(UID,10),el=document.getElementById("bb-hist");
+  if(!ws.length){el.innerHTML='<div class="empty"><div class="emp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><p>Belum ada data berat badan.</p></div>';drawChart([],document.getElementById("wt-canvas"));return;}
+  el.innerHTML=[...ws].reverse().map(w=>{
+    const cls=w.pct===null?"":w.pct<=3?"green":w.pct<=5?"yellow":"red";
+    const it=w.idwg!==null&&w.idwg!==undefined?(w.idwg>=0?"+":"")+w.idwg+" kg"+(w.pct!==null?" ("+w.pct+"%)":""):"--";
+    return '<div class="hrow"><span class="hk">'+w.date+'</span><span class="hv">Pre: '+w.pre+'kg'+(w.post?" | Post: "+w.post+"kg":"")+'</span></div><div class="hrow"><span class="hk">IDWG</span><span class="hv '+cls+'">'+it+'</span></div>';
+  }).join("");
+  drawChart(ws,document.getElementById("wt-canvas"));
+}
+
+async function updateHomeWeight(){
+  const ws=await getBBAll(UID,5),last=ws[ws.length-1];
+  if(!last){document.getElementById("h-idwg").textContent="--";document.getElementById("h-bbpre").textContent="--";return;}
+  document.getElementById("h-bbpre").textContent=last.pre+" kg";
+  document.getElementById("h-idwg").textContent=last.idwg!==null&&last.idwg!==undefined?(last.idwg>=0?"+":"")+last.idwg+" kg":"--";
+}
+
+function drawChart(ws,canvas){
+  if(!canvas)return;
+  const W=canvas.parentElement.clientWidth||280,H=canvas===document.getElementById("wt-canvas")?135:155;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext("2d");ctx.clearRect(0,0,W,H);
+  if(!ws.length){ctx.fillStyle="#CBD5E1";ctx.font="12px sans-serif";ctx.textAlign="center";ctx.fillText("Belum ada data",W/2,H/2);return;}
+  const pres=ws.map(x=>x.pre),posts=ws.filter(x=>x.post).map(x=>x.post),dw=ws[0].dw;
+  const all=[...pres,...posts,...(dw?[dw]:[])],minV=Math.min(...all)-1,maxV=Math.max(...all)+1;
+  const n=ws.length,xS=n>1?(W-40)/(n-1):0,sy=v=>H-20-(v-minV)/(maxV-minV)*(H-30);
+  if(dw){ctx.strokeStyle="#CBD5E1";ctx.setLineDash([5,4]);ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(20,sy(dw));ctx.lineTo(W-20,sy(dw));ctx.stroke();ctx.setLineDash([]);}
+  const pp=ws.map((x,i)=>x.post?{x:20+i*xS,y:sy(x.post)}:null).filter(Boolean);
+  if(pp.length>1){ctx.strokeStyle="#16A34A";ctx.lineWidth=2;ctx.beginPath();pp.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();}
+  if(n>1){ctx.strokeStyle="#1B6FE8";ctx.lineWidth=2.5;ctx.beginPath();ws.forEach((x,i)=>{const px=20+i*xS,py=sy(x.pre);i?ctx.lineTo(px,py):ctx.moveTo(px,py);});ctx.stroke();}
+  ws.forEach((x,i)=>{const px=20+i*xS;ctx.fillStyle="#1B6FE8";ctx.beginPath();ctx.arc(px,sy(x.pre),4,0,Math.PI*2);ctx.fill();if(x.post){ctx.fillStyle="#16A34A";ctx.beginPath();ctx.arc(px,sy(x.post),3,0,Math.PI*2);ctx.fill();}});
+  ctx.fillStyle="#94A3B8";ctx.font="10px sans-serif";ctx.textAlign="center";
+  ws.forEach((x,i)=>{if(i===0||i===ws.length-1||n<=5)ctx.fillText(x.date.slice(5),20+i*xS,H-4);});
+}
+
+// ===== GRAFIK CAIRAN =====
+function drawFluidChart(labels,masukArr,keluarArr,neracaArr,canvas){
+  if(!canvas)return;
+  const W=canvas.parentElement.clientWidth||280,H=155;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext("2d");ctx.clearRect(0,0,W,H);
+  if(!labels.length){ctx.fillStyle="#CBD5E1";ctx.font="12px sans-serif";ctx.textAlign="center";ctx.fillText("Belum ada data",W/2,H/2);return;}
+  const all=[...masukArr,...keluarArr,...neracaArr].filter(v=>v!==undefined&&v!==null);
+  if(!all.length){ctx.fillStyle="#CBD5E1";ctx.font="12px sans-serif";ctx.textAlign="center";ctx.fillText("Belum ada data",W/2,H/2);return;}
+  const minV=Math.min(0,...all)-50,maxV=Math.max(...all)+100;
+  const n=labels.length,xS=n>1?(W-40)/(n-1):0,sy=v=>H-20-(v-minV)/(maxV-minV)*(H-30);
+  // Zero line
+  ctx.strokeStyle="rgba(0,0,0,.1)";ctx.lineWidth=1;ctx.setLineDash([3,3]);
+  ctx.beginPath();ctx.moveTo(20,sy(0));ctx.lineTo(W-20,sy(0));ctx.stroke();ctx.setLineDash([]);
+  // Keluar
+  const koPoints=keluarArr.map((v,i)=>v!==null?{x:20+i*xS,y:sy(v)}:null).filter(Boolean);
+  if(koPoints.length>1){ctx.strokeStyle="#C2410C";ctx.lineWidth=2;ctx.beginPath();koPoints.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();}
+  // Masuk
+  const mkPoints=masukArr.map((v,i)=>v!==null?{x:20+i*xS,y:sy(v)}:null).filter(Boolean);
+  if(mkPoints.length>1){ctx.strokeStyle="#1B6FE8";ctx.lineWidth=2.5;ctx.beginPath();mkPoints.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();}
+  // Dots
+  labels.forEach((_,i)=>{
+    const x=20+i*xS;
+    if(masukArr[i]!==null){ctx.fillStyle="#1B6FE8";ctx.beginPath();ctx.arc(x,sy(masukArr[i]),4,0,Math.PI*2);ctx.fill();}
+    if(keluarArr[i]!==null){ctx.fillStyle="#C2410C";ctx.beginPath();ctx.arc(x,sy(keluarArr[i]),3,0,Math.PI*2);ctx.fill();}
+  });
+  // X Labels
+  ctx.fillStyle="#94A3B8";ctx.font="9px sans-serif";ctx.textAlign="center";
+  labels.forEach((l,i)=>{if(i===0||i===n-1||n<=5)ctx.fillText(l,20+i*xS,H-4);});
+}
+
+async function renderGrafik(days){
+  _gfdays=days;
+  // Ambil data cairan
+  let cQ=cCairan(UID).orderBy(firebase.firestore.FieldPath.documentId());
+  let kQ=cKeluar(UID).orderBy(firebase.firestore.FieldPath.documentId());
+  const cut=cutoffDate(days);
+  if(cut){cQ=cQ.where(firebase.firestore.FieldPath.documentId(),">=",cut);kQ=kQ.where(firebase.firestore.FieldPath.documentId(),">=",cut);}
+  const [cSnap,kSnap]=await Promise.all([cQ.get().catch(()=>null),kQ.get().catch(()=>null)]);
+  const allDates=[...new Set([...(cSnap?cSnap.docs.map(d=>d.id):[]),...(kSnap?kSnap.docs.map(d=>d.id):[])].filter(Boolean))].sort();
+  const masukArr=allDates.map(t=>{const d=cSnap?cSnap.docs.find(x=>x.id===t):null;return d?d.data().total||0:null;});
+  const keluarArr=allDates.map(t=>{const d=kSnap?kSnap.docs.find(x=>x.id===t):null;return d?d.data().total||0:null;});
+  const neracaArr=allDates.map((_,i)=>(masukArr[i]||0)-(keluarArr[i]||0));
+  const labels=allDates.map(t=>t.slice(5));
+  setTimeout(()=>{
+    drawFluidChart(labels,masukArr,keluarArr,neracaArr,document.getElementById("fluid-canvas"));
+    // Grafik BB
+    getBBAll(UID,parseInt(days)||7).then(ws=>{
+      drawChart(ws,document.getElementById("wt-canvas2"));
+    });
+  },50);
+}
+
+function fGrafik(days,btn){
+  document.querySelectorAll("#grafik-ftabs .ftab").forEach(b=>b.classList.remove("on"));btn.classList.add("on");
+  renderGrafik(days);
+}
+
+// ===== JADWAL HD =====
+async function addJadwal(){
+  if(ROLE==="perawat")return;
+  const tgl=document.getElementById("jd-tgl").value;
+  if(!tgl)return toast("Pilih tanggal HD");
+  const btn=document.getElementById("btn-addjd");btn.disabled=true;
+  try{
+    await cJadwal(UID).add({tgl,shift:document.getElementById("jd-shift").value,note:document.getElementById("jd-note").value,hadir:null,addedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    await renderJadwal();toast("Jadwal ditambahkan");
+    document.getElementById("jd-tgl").value="";document.getElementById("jd-note").value="";
+  }catch(e){toast("Gagal: "+e.message);}
+  btn.disabled=false;
+}
+
+async function removeJadwal(id){
+  if(ROLE==="perawat")return;
+  try{await cJadwal(UID).doc(id).delete();await renderJadwal();}catch(e){toast("Gagal: "+e.message);}
+}
+
+async function renderJadwal(){
+  let jadwal=[];
+  try{const s=await cJadwal(UID).orderBy("tgl").get();jadwal=s.docs.map(d=>({id:d.id,...d.data()}));}catch{}
+  const el=document.getElementById("jadwal-list");
+  if(!jadwal.length){el.innerHTML='<div class="empty"><div class="emp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><p>Belum ada jadwal HD.</p></div>';renderHomeJadwal([]);return;}
+  const tgl0=today();
+  el.innerHTML=jadwal.map(j=>{
+    const d=new Date(j.tgl);
+    const hari=d.toLocaleDateString("id-ID",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+    const isPast=j.tgl<tgl0,isTdy=j.tgl===tgl0;
+    const cls=isTdy?"today":isPast?"past":"";
+    const del=ROLE!=="perawat"?'<button onclick="removeJadwal(\''+j.id+'\')" style="background:none;border:none;cursor:pointer;color:var(--g300);font-size:17px;padding:0">\u00d7</button>':"";
+    return '<div class="jd-item '+cls+'"><div class="jd-date">'+d.getDate()+'</div><div style="flex:1"><div class="jd-hari">'+hari+'</div><div class="jd-shift">'+j.shift+(j.note?" - "+j.note:"")+"</div></div>"+del+"</div>";
+  }).join("");
+  renderHomeJadwal(jadwal);
+}
+
+function renderHomeJadwal(jadwal){
+  const el=document.getElementById("h-jadwal"),up=jadwal.filter(j=>j.tgl>=today()).slice(0,2);
+  if(!up.length){el.innerHTML='<div class="empty" style="padding:8px 0"><div class="emp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><p>Belum ada jadwal mendatang.</p></div>';return;}
+  el.innerHTML=up.map(j=>{const d=new Date(j.tgl);return '<div class="jd-item"><div class="jd-date">'+d.getDate()+'</div><div><div class="jd-hari">'+d.toLocaleDateString("id-ID",{weekday:"long",month:"short",day:"numeric"})+'</div><div class="jd-shift">'+j.shift+"</div></div></div>";}).join("");
+}
+
+// ===== RIWAYAT PASIEN =====
+function fHist(days,btn){document.querySelectorAll(".ftab").forEach(b=>b.classList.remove("on"));btn.classList.add("on");_hdays=days;renderHist(days);renderRvBB(days);}
+
+async function renderHist(days){
+  const el=document.getElementById("hist-list");
+  el.innerHTML='<div class="empty"><p>Memuat riwayat...</p></div>';
+  try{
+    let q=cCairan(UID).orderBy(firebase.firestore.FieldPath.documentId(),"desc");
+    const cut=cutoffDate(days);
+    if(cut)q=q.where(firebase.firestore.FieldPath.documentId(),">=",cut);
+    const [snapC,snapK]=await Promise.all([q.get(),cKeluar(UID).orderBy(firebase.firestore.FieldPath.documentId(),"desc").get().catch(()=>({docs:[]}))]);
+    if(snapC.empty&&snapK.empty){el.innerHTML='<div class="empty"><div class="emp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><p>Belum ada riwayat cairan.</p></div>';return;}
+    const allDates=[...new Set([...snapC.docs.map(d=>d.id),...snapK.docs.map(d=>d.id)])].sort().reverse();
+    el.innerHTML=allDates.map(tgl=>{
+      const ce=snapC.docs.find(d=>d.id===tgl);
+      const ke=snapK.docs.find(d=>d.id===tgl);
+      const e=ce?ce.data():{},items=e.items||[],total=e.total||0,batas=e.batas||BATAS,cls=e.status||"";
+      const ko=ke?ke.data():{},keluar=ko.total||0;
+      const neraca=total-keluar;
+      const rows=items.map(f=>'<div class="hrow"><span class="hk">'+f.label+'</span><span class="hv">'+f.ml+' ml</span></div>').join("");
+      const neracaSign=neraca>0?"+":"";
+      return '<div style="margin-bottom:13px"><div class="hhdr">'+tgl+'</div>'+rows+
+        '<div class="hrow"><span class="hk" style="font-weight:700">Total Masuk</span><span class="hv '+cls+'">'+total+(batas?' / '+batas+' ml':'')+'</span></div>'+
+        (keluar?'<div class="hrow"><span class="hk">Total Keluar</span><span class="hv" style="color:#C2410C">'+keluar+' ml</span></div>':'')+
+        (total||keluar?'<div class="hrow"><span class="hk" style="font-weight:700">Neraca</span><span class="hv '+(neraca<0?"red":neraca>0?"green":"")+'">'+neracaSign+neraca+' ml</span></div>':'')+
+        '</div>';
+    }).join("");
+  }catch(e){el.innerHTML='<div class="empty"><p>Gagal memuat: '+e.message+'</p></div>';}
+}
+
+async function renderRvBB(days){
+  const el=document.getElementById("rv-bb-list");if(!el)return;
+  el.innerHTML='<div class="empty"><p>Memuat...</p></div>';
+  try{
+    let q=cBB(UID).orderBy(firebase.firestore.FieldPath.documentId(),"desc");
+    const cut=cutoffDate(days);
+    if(cut)q=q.where(firebase.firestore.FieldPath.documentId(),">=",cut);
+    const snap=await q.get();
+    if(snap.empty){el.innerHTML='<div class="empty"><p>Belum ada data berat badan.</p></div>';return;}
+    el.innerHTML=snap.docs.map(d=>{
+      const w=d.data(),cls=w.pct===null?"":w.pct<=3?"green":w.pct<=5?"yellow":"red";
+      const it=w.idwg!==null&&w.idwg!==undefined?(w.idwg>=0?"+":"")+w.idwg+" kg"+(w.pct!==null?" ("+w.pct+"%)":""):"--";
+      return '<div class="hrow"><span class="hk">'+d.id+'</span><span class="hv">Pre: '+w.pre+'kg'+(w.post?" | Post: "+w.post+"kg":"")+'</span></div>'+
+        '<div class="hrow"><span class="hk">IDWG</span><span class="hv '+cls+'">'+it+'</span></div>';
+    }).join("");
+  }catch(e){el.innerHTML='<div class="empty"><p>Gagal: '+e.message+'</p></div>';}
+}
+
+async function renderRvJadwal(){
+  const el=document.getElementById("rv-jadwal-list");if(!el)return;
+  el.innerHTML='<div class="empty"><p>Memuat...</p></div>';
+  try{
+    const snap=await cJadwal(UID).orderBy("tgl","desc").get();
+    if(snap.empty){el.innerHTML='<div class="empty"><p>Belum ada jadwal HD.</p></div>';return;}
+    const tgl0=today();
+    el.innerHTML=snap.docs.map(d=>{
+      const j=d.data();
+      const dd=new Date(j.tgl);
+      const isPast=j.tgl<tgl0;
+      const statusBadge=isPast?'<span class="jd-hadir '+(j.hadir===true?"y":j.hadir===false?"n":"x")+'">'+( j.hadir===true?"Hadir":j.hadir===false?"Tidak":"Belum Dicatat")+'</span>':"";
+      return '<div class="hrow"><span class="hk">'+dd.toLocaleDateString("id-ID",{weekday:"short",day:"numeric",month:"short",year:"numeric"})+'</span><span class="hv">'+j.shift.split(" ")[0]+" "+statusBadge+'</span></div>';
+    }).join("");
+  }catch(e){el.innerHTML='<div class="empty"><p>Gagal: '+e.message+'</p></div>';}
+}
+
+// ===== PERAWAT: DASHBOARD =====
+async function loadNurse(){
+  const el=document.getElementById("nurse-list");
+  el.innerHTML='<div class="empty"><p>Memuat data dari cloud...</p></div>';
+  // Jadwal hari ini
+  await loadNurseJadwalToday();
+  try{
+    const snap=await cDaftar().get();
+    document.getElementById("nrs-total").textContent=snap.size;
+    if(snap.empty){el.innerHTML='<div class="empty"><div class="emp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><p>Belum ada pasien terdaftar.</p></div>';document.getElementById("nrs-alert").textContent=0;document.getElementById("nrs-aman").textContent=0;return;}
+    let alertN=0,safeN=0;const tgl=today();const rows=[];
+    for(const doc of snap.docs){
+      const uid=doc.id;
+      const pSnap=await cUsers().doc(uid).get();
+      const cSnap=await cCairan(uid).doc(tgl).get();
+      const p=pSnap.exists?pSnap.data():{};
+      const cData=cSnap.exists?cSnap.data():{};
+      const total=cData.total||0;
+      const batas=p.urin==="ada"?500+(p.u24||0):500;
+      const status=cData.status||(p.dw?total>batas?"red":total/batas>0.8?"yellow":"green":"unknown");
+      let lbl="Belum ada data",bc="x";
+      if(status==="green"){lbl="Aman";bc="g";safeN++;}
+      else if(status==="yellow"){lbl="Peringatan";bc="y";}
+      else if(status==="red"){lbl="Bahaya";bc="r";alertN++;}
+      const nama=p.nama||doc.data().nama||"(belum diisi)";
+      const av=nama.substring(0,2).toUpperCase();
+      const uidShort=uid.substring(0,8)+"...";
+      rows.push(
+        '<div class="prrow">'+
+        '<div class="pr-av">'+av+'</div>'+
+        '<div style="flex:1"><div class="pr-name">'+nama+'</div>'+
+        '<div class="pr-info">'+(p.usia?p.usia+" th · ":"")+'Total: '+total+'/'+batas+' ml</div>'+
+        '<div class="pr-id">ID: '+uidShort+'</div></div>'+
+        '<span class="pr-bdg '+bc+'">'+lbl+'</span>'+
+        '<button class="pr-btn" onclick="openDet(\''+uid+'\')">Lihat Detail</button>'+
+        '</div>'
+      );
+    }
+    el.innerHTML=rows.length?rows.join(""):'<div class="empty"><p>Belum ada data pasien.</p></div>';
+    document.getElementById("nrs-alert").textContent=alertN;
+    document.getElementById("nrs-aman").textContent=safeN;
+  }catch(e){el.innerHTML='<div class="empty"><p>Gagal memuat: '+e.message+'</p></div>';}
+}
+
+async function loadNurseJadwalToday(){
+  const el=document.getElementById("nrs-jadwal-today");if(!el)return;
+  const tgl=today();el.innerHTML='<div class="empty" style="padding:8px 0"><p>Memuat jadwal...</p></div>';
+  try{
+    const daftarSnap=await cDaftar().get();
+    const items=[];
+    for(const doc of daftarSnap.docs){
+      const uid=doc.id;
+      const pSnap=await cUsers().doc(uid).get().catch(()=>null);
+      const nama=pSnap&&pSnap.exists?pSnap.data().nama:doc.data().nama||"(belum diisi)";
+      const jSnap=await cJadwal(uid).where("tgl","==",tgl).get().catch(()=>({docs:[]}));
+      jSnap.docs.forEach(jd=>{items.push({nama,shift:jd.data().shift,uid});});
+    }
+    if(!items.length){el.innerHTML='<div class="empty" style="padding:8px 0"><p>Tidak ada jadwal HD hari ini.</p></div>';return;}
+    el.innerHTML=items.map(it=>
+      '<div class="jd-item today" style="cursor:pointer" onclick="openDet(\''+it.uid+'\')">'+
+      '<div class="pr-av" style="border-radius:50%;background:var(--green-s);color:var(--green)">'+it.nama.substring(0,2).toUpperCase()+'</div>'+
+      '<div style="flex:1"><div class="jd-hari">'+it.nama+'</div><div class="jd-shift">'+it.shift+'</div></div>'+
+      '</div>'
+    ).join("");
+  }catch(e){el.innerHTML='<div class="empty" style="padding:8px 0"><p>Gagal memuat.</p></div>';}
+}
+
+// ===== OVERLAY DETAIL PASIEN =====
+async function openDet(uid){
+  _detUID=uid;
+  document.getElementById("overlay-det").classList.remove("hidden");
+  // Reset tab
+  showDTab("dt-profil",document.querySelector(".dtab"));
+  // Load data
+  const tgl=today();
+  const [pSnap,cSnap,kSnap,wsSnap,jSnap]=await Promise.all([
+    cUsers().doc(uid).get().catch(()=>null),
+    cCairan(uid).doc(tgl).get().catch(()=>null),
+    cKeluar(uid).doc(tgl).get().catch(()=>null),
+    cBB(uid).orderBy(firebase.firestore.FieldPath.documentId(),"desc").limit(5).get().catch(()=>null),
+    cJadwal(uid).orderBy("tgl","desc").limit(10).get().catch(()=>null)
+  ]);
+  const p=pSnap&&pSnap.exists?pSnap.data():{};
+  const cData=cSnap&&cSnap.exists?cSnap.data():{};
+  const kData=kSnap&&kSnap.exists?kSnap.data():{};
+  const ws=wsSnap?wsSnap.docs.map(d=>({date:d.id,...d.data()})):[];
+  const jadwal=jSnap?jSnap.docs.map(d=>({id:d.id,...d.data()})):[];
+
+  // Header
+  document.getElementById("od-name").textContent=p.nama||"--";
+  document.getElementById("od-uid-lbl").textContent="UID: "+uid;
+
+  // Profil
+  document.getElementById("nd-usia").value=p.usia?p.usia+" tahun":"--";
+  document.getElementById("nd-dw2").value=p.dw?p.dw+" kg":"--";
+  document.getElementById("nd-urin").value=p.urin==="ada"?"Ada Urin ("+(p.u24||0)+" ml/24jam)":"Anuria";
+  document.getElementById("nd-dx").value=p.dx||"--";
+  document.getElementById("nd-email").value=p.email||"--";
+
+  // Ringkasan Klinis
+  const masuk=cData.total||0,keluar=kData.total||0,neraca=masuk-keluar;
+  const batas=p.urin==="ada"?500+(p.u24||0):500;
+  const lastBB=ws[0];
+  let rHtml='<div class="hrow"><span class="hk">Cairan Masuk Hari Ini</span><span class="hv '+(cData.status||"")+'">'+(masuk)+'/'+batas+' ml</span></div>'+
+    '<div class="hrow"><span class="hk">Cairan Keluar Hari Ini</span><span class="hv" style="color:#C2410C">'+keluar+' ml</span></div>'+
+    '<div class="hrow"><span class="hk">Neraca Cairan</span><span class="hv '+(neraca<0?"red":neraca>0?"green":"")+'">'+( neraca>0?"+":"")+neraca+' ml</span></div>';
+  if(lastBB)rHtml+='<div class="hrow"><span class="hk">BB Pre-HD Terakhir</span><span class="hv">'+lastBB.pre+' kg ('+lastBB.date+')</span></div>'+
+    '<div class="hrow"><span class="hk">IDWG Terakhir</span><span class="hv '+(lastBB.pct<=3?"green":lastBB.pct<=5?"yellow":"red")+'">'+( lastBB.idwg!==null?(lastBB.idwg>=0?"+":"")+lastBB.idwg+" kg"+(lastBB.pct!==null?" ("+lastBB.pct+"%)":""):"--")+'</span></div>';
+  document.getElementById("nd-ringkasan").innerHTML=rHtml;
+
+  // Cairan Masuk
+  const items=cData.items||[];
+  let cHtml=items.length?items.map(f=>'<div class="hrow"><span class="hk">'+f.label+'</span><span class="hv">'+f.ml+' ml</span></div>').join("")+'<div class="hrow" style="border-top:1.5px solid var(--g200);padding-top:5px;margin-top:3px"><span class="hk" style="font-weight:700">Total Masuk</span><span class="hv '+(cData.status||"")+'">'+masuk+'/'+batas+' ml</span></div>':'<div class="empty" style="padding:8px 0"><p>Belum ada data cairan hari ini.</p></div>';
+  document.getElementById("nd-cairan").innerHTML=cHtml;
+
+  // Cairan Keluar
+  let kHtml='<div class="empty" style="padding:8px 0"><p>Belum ada data cairan keluar hari ini.</p></div>';
+  if(kData.total!==undefined){
+    kHtml='<div class="hrow"><span class="hk">Ultrafiltrasi</span><span class="hv">'+(kData.uf||0)+' ml</span></div>'+
+      '<div class="hrow"><span class="hk">Urin</span><span class="hv">'+(kData.urin||0)+' ml</span></div>'+
+      '<div class="hrow"><span class="hk">Muntah</span><span class="hv">'+(kData.muntah||0)+' ml</span></div>'+
+      '<div class="hrow"><span class="hk">Lainnya</span><span class="hv">'+(kData.lain||0)+' ml</span></div>'+
+      '<div class="hrow" style="border-top:1.5px solid var(--g200);padding-top:5px;margin-top:3px"><span class="hk" style="font-weight:700">Total Keluar</span><span class="hv" style="color:#C2410C">'+keluar+' ml</span></div>';
+  }
+  document.getElementById("nd-keluar").innerHTML=kHtml;
+
+  // Neraca
+  renderNeracaBox("nd-neraca",masuk,keluar,neraca);
+
+  // BB & IDWG
+  let bbHtml='<div class="empty" style="padding:8px 0"><p>Belum ada data berat badan.</p></div>';
+  if(ws.length){
+    bbHtml=ws.map(w=>{
+      const cls=w.pct===null?"":w.pct<=3?"green":w.pct<=5?"yellow":"red";
+      const it=w.idwg!==null&&w.idwg!==undefined?(w.idwg>=0?"+":"")+w.idwg+" kg"+(w.pct!==null?" ("+w.pct+"%)":""):"--";
+      return '<div class="hrow"><span class="hk">'+w.date+'</span><span class="hv">Pre: '+w.pre+'kg'+(w.post?" | Post: "+w.post+"kg":"")+'</span></div>'+
+        '<div class="hrow"><span class="hk">IDWG</span><span class="hv '+cls+'">'+it+'</span></div>';
+    }).join("");
+  }
+  document.getElementById("nd-bb").innerHTML=bbHtml;
+
+  // Jadwal & Kepatuhan
+  let jHtml='<div class="empty" style="padding:8px 0"><p>Belum ada jadwal HD.</p></div>';
+  if(jadwal.length){
+    const tgl0=today();
+    jHtml=jadwal.map(j=>{
+      const d=new Date(j.tgl);
+      const isPast=j.tgl<tgl0,isTdy=j.tgl===tgl0;
+      const cls=isTdy?"today":isPast?"past":"";
+      const hadirBadge=isPast?'<span class="jd-hadir '+(j.hadir===true?"y":j.hadir===false?"n":"x")+'">'+( j.hadir===true?"Hadir":j.hadir===false?"Tidak":"Belum Dicatat")+'</span>':"";
+      return '<div class="hrow"><span class="hk">'+d.toLocaleDateString("id-ID",{weekday:"short",day:"numeric",month:"short"})+'</span><span class="hv">'+j.shift.split(" ")[0]+" "+hadirBadge+'</span></div>';
+    }).join("");
+  }
+  document.getElementById("nd-jadwal").innerHTML=jHtml;
+
+  // Grafik (render setelah panel terbuka)
+  setTimeout(async()=>{
+    // Grafik cairan
+    let cQ2=cCairan(uid).orderBy(firebase.firestore.FieldPath.documentId()).limitToLast(14);
+    let kQ2=cKeluar(uid).orderBy(firebase.firestore.FieldPath.documentId()).limitToLast(14);
+    const [cs2,ks2]=await Promise.all([cQ2.get().catch(()=>null),kQ2.get().catch(()=>null)]);
+    const allD=[...new Set([...(cs2?cs2.docs.map(d=>d.id):[]),...(ks2?ks2.docs.map(d=>d.id):[])].filter(Boolean))].sort();
+    const mkA=allD.map(t=>{const d=cs2?cs2.docs.find(x=>x.id===t):null;return d?d.data().total||0:null;});
+    const koA=allD.map(t=>{const d=ks2?ks2.docs.find(x=>x.id===t):null;return d?d.data().total||0:null;});
+    drawFluidChart(allD.map(t=>t.slice(5)),mkA,koA,[],document.getElementById("nd-fluid-canvas"));
+    // Grafik BB
+    const wsFull=await getBBAll(uid,10);
+    drawChart(wsFull,document.getElementById("nd-wt-canvas"));
+  },100);
+}
+
+function closeOverlay(){document.getElementById("overlay-det").classList.add("hidden");_detUID=null;}
+
+function showDTab(id,btn){
+  document.querySelectorAll(".dpanel").forEach(p=>p.classList.remove("on"));
+  document.getElementById(id).classList.add("on");
+  if(btn)document.querySelectorAll(".dtab").forEach(b=>b.classList.toggle("on",b===btn));
+}
+
+// ===== PERAWAT: RIWAYAT =====
+function fNrsHist(days,btn){
+  document.querySelectorAll("#nrv-ftabs .ftab").forEach(b=>b.classList.remove("on"));btn.classList.add("on");
+  _nrsHist=days;
+  if(_detUID)loadNrsRiwayat(_detUID,days);
+}
+
+async function loadNrsRiwayat(uid,days){
+  // Cairan
+  const el1=document.getElementById("nrv-cairan-list"),el2=document.getElementById("nrv-bb-list"),el3=document.getElementById("nrv-jadwal-list");
+  if(el1)el1.innerHTML='<div class="empty"><p>Memuat...</p></div>';
+  if(el2)el2.innerHTML='<div class="empty"><p>Memuat...</p></div>';
+  if(el3)el3.innerHTML='<div class="empty"><p>Memuat...</p></div>';
+  const cut=cutoffDate(days);
+  try{
+    let cQ=cCairan(uid).orderBy(firebase.firestore.FieldPath.documentId(),"desc");
+    if(cut)cQ=cQ.where(firebase.firestore.FieldPath.documentId(),">=",cut);
+    const cSnap=await cQ.get().catch(()=>({docs:[]}));
+    if(el1){
+      if(cSnap.docs.length){el1.innerHTML=cSnap.docs.map(d=>{
+        const e=d.data(),total=e.total||0,batas=e.batas||0,cls=e.status||"";
+        return '<div class="hrow"><span class="hk">'+d.id+'</span><span class="hv '+cls+'">'+total+(batas?' / '+batas+' ml':'')+'</span></div>';
+      }).join("");}else{el1.innerHTML='<div class="empty"><p>Tidak ada data.</p></div>';}
+    }
+  }catch(e){if(el1)el1.innerHTML='<div class="empty"><p>Gagal: '+e.message+'</p></div>';}
+  try{
+    let bbQ=cBB(uid).orderBy(firebase.firestore.FieldPath.documentId(),"desc");
+    if(cut)bbQ=bbQ.where(firebase.firestore.FieldPath.documentId(),">=",cut);
+    const bbSnap=await bbQ.get().catch(()=>({docs:[]}));
+    if(el2){
+      if(bbSnap.docs.length){el2.innerHTML=bbSnap.docs.map(d=>{
+        const w=d.data(),cls=w.pct===null?"":w.pct<=3?"green":w.pct<=5?"yellow":"red";
+        const it=w.idwg!==null&&w.idwg!==undefined?(w.idwg>=0?"+":"")+w.idwg+" kg"+(w.pct!==null?" ("+w.pct+"%)":""):"--";
+        return '<div class="hrow"><span class="hk">'+d.id+'</span><span class="hv">'+w.pre+'kg → <span class="'+cls+'">'+it+'</span></span></div>';
+      }).join("");}else{el2.innerHTML='<div class="empty"><p>Tidak ada data.</p></div>';}
+    }
+  }catch(e){if(el2)el2.innerHTML='<div class="empty"><p>Gagal: '+e.message+'</p></div>';}
+  try{
+    const jSnap=await cJadwal(uid).orderBy("tgl","desc").get().catch(()=>({docs:[]}));
+    if(el3){
+      const tgl0=today();
+      if(jSnap.docs.length){el3.innerHTML=jSnap.docs.map(d=>{
+        const j=d.data(),isPast=j.tgl<tgl0;
+        const dd=new Date(j.tgl);
+        const hadirBadge=isPast?'<span class="jd-hadir '+(j.hadir===true?"y":j.hadir===false?"n":"x")+'">'+( j.hadir===true?"Hadir":j.hadir===false?"Tidak":"?")+'</span>':"";
+        return '<div class="hrow"><span class="hk">'+dd.toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"})+'</span><span class="hv">'+j.shift.split(" ")[0]+" "+hadirBadge+'</span></div>';
+      }).join("");}else{el3.innerHTML='<div class="empty"><p>Tidak ada data.</p></div>';}
+    }
+  }catch(e){if(el3)el3.innerHTML='<div class="empty"><p>Gagal: '+e.message+'</p></div>';}
+}
+
+// ===== EKSPOR =====
+async function exportCSV(){
+  const p=await loadProfilFS()||{};
+  const cSnap=await cCairan(UID).orderBy(firebase.firestore.FieldPath.documentId()).get();
+  const kSnap=await cKeluar(UID).orderBy(firebase.firestore.FieldPath.documentId()).get().catch(()=>({docs:[]}));
+  const bbSnap=await cBB(UID).orderBy(firebase.firestore.FieldPath.documentId()).get();
+  const allD=[...new Set([...cSnap.docs.map(d=>d.id),...bbSnap.docs.map(d=>d.id),...kSnap.docs.map(d=>d.id)])].sort();
+  let csv="Tanggal,Jenis Cairan,Jumlah (ml),Total Masuk (ml),Total Keluar (ml),Neraca (ml),Batas (ml),Status,BB Pre-HD,BB Post-HD,IDWG\n";
+  allD.forEach(tgl=>{
+    const ce=cSnap.docs.find(d=>d.id===tgl);
+    const ke=kSnap.docs.find(d=>d.id===tgl);
+    const be=bbSnap.docs.find(d=>d.id===tgl);
+    const items=ce?ce.data().items||[]:[];
+    const cd=ce?ce.data():{};
+    const kd=ke?ke.data():{};
+    const bb=be?be.data():null;
+    const total=cd.total||0,batas=cd.batas||BATAS,stat=cd.status||"",keluar=kd.total||0,neraca=total-keluar;
+    if(!items.length){csv+=tgl+",,0,"+total+","+keluar+","+neraca+","+batas+","+stat+","+(bb?bb.pre:"")+","+(bb&&bb.post?bb.post:"")+","+(bb&&bb.idwg!==null?bb.idwg:"")+"\n";}
+    else items.forEach((f,i)=>{csv+=tgl+',"'+f.label+'",'+f.ml+","+(i===0?total:"")+","+(i===0?keluar:"")+","+(i===0?neraca:"")+","+(i===0?batas:"")+","+(i===0?stat:"")+","+(i===0&&bb?bb.pre:"")+","+(i===0&&bb&&bb.post?bb.post:"")+","+(i===0&&bb&&bb.idwg!==null?bb.idwg:"")+"\n";});
+  });
+  dlFile("FerFlow_"+(p.nama||EMAIL)+"_Data.csv",csv,"text/csv");
+  toast("Data berhasil diekspor");
+}
+
+async function exportJSON(){
+  const p=await loadProfilFS()||{};
+  const cSnap=await cCairan(UID).get();
+  const kSnap=await cKeluar(UID).get().catch(()=>({docs:[]}));
+  const bbSnap=await cBB(UID).get();
+  const jSnap=await cJadwal(UID).get();
+  const cairan={},keluar={},bb={},jadwal=[];
+  cSnap.docs.forEach(d=>{cairan[d.id]=d.data();});
+  kSnap.docs.forEach(d=>{keluar[d.id]=d.data();});
+  bbSnap.docs.forEach(d=>{bb[d.id]=d.data();});
+  jSnap.docs.forEach(d=>jadwal.push({id:d.id,...d.data()}));
+  dlFile("FerFlow_Backup.json",JSON.stringify({profil:p,cairan,cairanKeluar:keluar,beratBadan:bb,jadwal,exportedAt:new Date().toISOString()},null,2),"application/json");
+  toast("Backup diekspor");
+}
+
+function dlFile(name,content,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();}
+</script>
+</body>
+</html>
